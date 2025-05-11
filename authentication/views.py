@@ -1,7 +1,8 @@
 from django.views.generic import TemplateView, View
 from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate, login
 
-from authentication.forms.cadastro_form import CadastroForm
+from authentication.forms.cadastro_form import CadastroForm, LoginForm
 
 class IndexView(TemplateView):
     template_name = 'authentication/pages/index.html'
@@ -36,8 +37,31 @@ class LoginView(TemplateView):
     template_name = 'authentication/pages/login.html'
 
     def get(self, request, *args, **kwargs):
+        form = LoginForm()
         return render(
             request,
             self.template_name,
-            {}
+            {
+                'form': form
+            }
+        )
+    
+    def post(self, request, *args, **kwargs):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('authentication:index')
+            else:
+                form.add_error(None, "Nome de usuário ou senha inválida.")
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form
+            }
         )

@@ -43,4 +43,16 @@ class CadastroForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-        
+
+class LoginForm(forms.Form):
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'placeholder': 'Nome de usuário', 'class': 'form-control'}),
+        label='Nome de usuário',
+        required=True
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Senha', 'class': 'form-control'}),
+        label='Senha',
+        required=True
+    )

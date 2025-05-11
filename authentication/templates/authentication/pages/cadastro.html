@@ -11,15 +11,15 @@
 <div class="container-all-with-header centralize" style="padding: 0rem 1rem;">
   <div class="card">
     <h1 class="text-center">Cadastro</h1>
-    <div>
-      <form method="POST" class="form-cadastro">
-        {% csrf_token %}
-        {% for field in form %}
-          {% include 'components/layouts/form_field.html' %}
-        {% endfor %}
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
-      </form>
-    </div>
+    <form method="POST" class="container-form">
+      {% csrf_token %}
+      {% include 'components/layouts/form_general_errors.html' %}
+      {% for field in form %}
+        {% include 'components/layouts/form_field.html' %}
+      {% endfor %}
+      <small class="text-muted">Já possui uma conta? <a class="link-to-login" href="{% url "authentication:login" %}">Entrar agora!</a></small>
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
   </div>
 </div>
 {% endblock %}

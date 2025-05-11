@@ -11,6 +11,17 @@
 <div class="container-all-with-header centralize" style="padding: 0rem 1rem;">
   <div class="card">
     <h1 class="text-center">Login</h1>
+    <form method="POST" class="container-form">
+      {% csrf_token %}
+      {% include 'components/layouts/form_general_errors.html' %}
+      {% for field in form %}
+        {% include 'components/layouts/form_field.html' %}
+      {% endfor %}
+      <small class="text-muted">Não tem conta? <a class="link-to-register" href="{% url "authentication:cadastro" %}">Cadastrar agora!</a></small>
+      <div class="d-flex flex-centralize">
+        <button type="submit" class="btn btn-primary">Logar</button>
+      </div>
+    </form>
   </div>
 </div>
 {% endblock %}
