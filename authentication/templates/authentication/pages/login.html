@@ -1,0 +1,16 @@
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block head_title %}Login{% endblock head_title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'authentication/css/login.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<div class="container-all-with-header centralize" style="padding: 0rem 1rem;">
+  <div class="card">
+    <h1 class="text-center">Login</h1>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+<div class="container-input">
+  <div class="d-flex">
+    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+    {% if field.field.required or required == True %}
+        <span class="text-danger">*</span>
+    {% endif %}
+  </div>
+    {{ field }}
+  {% if field.help_text %}
+    <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+  {% endif %}
+</div>
+{% if field.errors %}
+  <div class="text-danger">{{ field.errors }}</div>
+{% endif %}

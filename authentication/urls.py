@@ -7,5 +7,7 @@ from django.urls import path
 app_name = "authentication"
 
 urlpatterns = [
-    path("", views.IndexView.as_view(), name="index"),  
+    path("", views.IndexView.as_view(), name="index"),
+    path("cadastro/", views.CadastroView.as_view(), name="cadastro"),
+    path("login/", views.LoginView.as_view(), name="login"),
 ]
