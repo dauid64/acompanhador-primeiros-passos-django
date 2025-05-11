@@ -1,0 +1,11 @@
+logo-index {
+    width: 200px;
+    height: 100px;
+}
+
+@media only screen and (max-width: 768px) {
+    .logo-index {
+        width: 150px;
+        height: 80px;
+    }
+}

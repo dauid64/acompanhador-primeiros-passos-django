@@ -21,6 +21,10 @@ body {
     width: 100%;
 }
 
+a {
+    text-decoration: none;
+}
+
 h1 {
     font-family: 'Poppins', sans-serif;
     font-size: 2.5rem;
@@ -59,7 +63,7 @@ p {
 }
 
 .container-all-with-header {
-    height: 94vh;
+    height: 90vh;
     width: 100%;
 }
 

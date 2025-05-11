@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acompanhador Curso Django</title>
+    <title>{% block head_title %}{% endblock head_title %}</title>
 
     {% include "components/layouts/styles.html" %}
+    {% block styles %}{% endblock styles %}
 </head>
 <body>
     {% include 'components/layouts/header.html' %}
-    {% block content%}{% endblock %}
+    {% block content %}{% endblock content %}
+    {% include 'components/layouts/footer.html' %}
 </body>
 </html>
