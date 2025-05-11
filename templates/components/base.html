@@ -1,5 +1,3 @@
-{% load django_bootstrap5 %}
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -7,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acompanhador Curso Django</title>
 
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
+    {% include "components/layouts/styles.html" %}
 </head>
 <body>
     {% include 'components/layouts/header.html' %}
