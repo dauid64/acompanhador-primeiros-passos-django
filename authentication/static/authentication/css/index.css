@@ -1,6 +1,6 @@
-logo-index {
+.logo-index {
     width: 200px;
-    height: 100px;
+    height: 90px;
 }
 
 @media only screen and (max-width: 768px) {
