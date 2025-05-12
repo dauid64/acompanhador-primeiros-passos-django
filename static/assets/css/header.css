@@ -1,10 +1,11 @@
 .navbar {
     background-color: var(--primary-color);
-    padding: 0rem 1rem;
+    padding: 0.5rem 1rem;
     height: 6vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .navbar-brand {
@@ -17,8 +18,43 @@
     font-size: 1.2rem;
 }
 
+.btn-header {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    color: var(--primary-color);
+}
+
+.btn-header:hover {
+    color: var(--secondary-color);
+}
+
+.logout-icon {
+    display: none;
+}
+
 @media only screen and (max-width: 768px) {
-    .navbar-brand {
-        font-size: 0.7rem;
+    .logout-text {
+        display: none;
+    }
+
+    .logout-icon {
+        display: inline;
+    }
+
+    .navbar-title {
+        display: none;
+    }
+
+    .btn-header {
+        padding: 0.2rem 0.6rem;
     }
 }

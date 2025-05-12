@@ -1,6 +1,8 @@
 from django.views.generic import TemplateView, View
 from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from authentication.forms.cadastro_form import CadastroForm, LoginForm
 
@@ -56,7 +58,7 @@ class LoginView(TemplateView):
 
             if user is not None:
                 login(request, user)
-                return redirect('authentication:index')
+                return redirect('authentication:home')
             else:
                 form.add_error(None, "Nome de usuário ou senha inválida.")
         return render(
@@ -67,3 +69,13 @@ class LoginView(TemplateView):
             },
             status=400
         )
+
+@method_decorator(login_required, name='dispatch')
+class LogoutView(View):
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('authentication:index')
+
+@method_decorator(login_required, name='dispatch')
+class HomeView(TemplateView):
+    template_name = 'authentication/pages/home.html'

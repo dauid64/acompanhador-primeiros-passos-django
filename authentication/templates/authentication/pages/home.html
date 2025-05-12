@@ -1,0 +1,19 @@
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block head_title %}Página Principal{% endblock head_title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'authentication/css/home.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<div class="container-all-with-header centralize">
+  <div class="card text-center">
+    <h1>Olá, {{ user.first_name }}!</h1>
+    <h3>Acompanhe seus exercícios</h3>
+    <a href="" class="btn btn-primary btn-home">Acessar o dashboard</a>
+    <img src="{% static 'authentication/imgs/dev_productivity.svg' %}" alt="ilustração de desenvolvedor sendo produtivo" class="logo-index">
+  </div>
+</div>
+{% endblock %}

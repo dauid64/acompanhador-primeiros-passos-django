@@ -1,8 +1,24 @@
 {% load static %}
 
 <nav class="navbar">
-  <a class="navbar-brand" href="{% url 'authentication:index' %}">
-    <img src="{% static "assets/imgs/unb-logo.svg" %}" width="50" height="30" class="nav-bar-logo" alt="logo UnB">
-    Acompanhador Primeiros Passos Django
-  </a>
+  {% if user.is_authenticated %}
+    <a class="navbar-brand" href="{% url 'authentication:home' %}">
+      <img src="{% static "assets/imgs/unb-logo.svg" %}" width="50" height="30" class="nav-bar-logo" alt="logo UnB">
+      <div class="navbar-title">Acompanhador Primeiros Passos Django</div>
+    </a>
+      <form action="{% url 'authentication:logout' %}" method="post">
+      {% csrf_token %}
+      <button class="btn-header logout-text" type="submit">
+        Sair
+      </button>
+      <button class="btn-header logout-icon" type="submit">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+    </form>
+  {% else %}
+    <a class="navbar-brand" href="{% url 'authentication:index' %}">
+      <img src="{% static "assets/imgs/unb-logo.svg" %}" width="50" height="30" class="nav-bar-logo" alt="logo UnB">
+      <div class="navbar-title">Acompanhador Primeiros Passos Django</div>
+    </a>
+  {% endif %}
 </nav>
