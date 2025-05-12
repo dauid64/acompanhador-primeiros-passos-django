@@ -18,7 +18,9 @@
         {% include 'components/layouts/form_field.html' %}
       {% endfor %}
       <small class="text-muted">Já possui uma conta? <a class="link-to-login" href="{% url "authentication:login" %}">Entrar agora!</a></small>
-      <button type="submit" class="btn btn-primary">Cadastrar</button>
+      <div class="d-flex flex-centralize">
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+      </div>
     </form>
   </div>
 </div>

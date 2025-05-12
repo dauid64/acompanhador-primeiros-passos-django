@@ -68,7 +68,7 @@ p {
 }
 
 .container-all-with-header {
-    height: 90vh;
+    min-height: 90vh;
     overflow: auto;
 }
 
@@ -80,7 +80,6 @@ p {
 }
 
 .card {
-    margin: 2rem auto;
     background-color: var(--card-bg);
     border-radius: 16px;
     box-shadow: 10px 20px 30px var(--shadow-color);
@@ -110,6 +109,7 @@ p {
     border: none;
     text-decoration: none;
     display: inline-block;
+    width: 100%;
 }
 
 .btn-primary {
@@ -148,6 +148,7 @@ p {
     border: 1px solid var(--primary-color);
     font-size: 1rem;
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 .d-flex {

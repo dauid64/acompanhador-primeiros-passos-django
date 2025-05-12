@@ -3,9 +3,13 @@
     height: 90px;
 }
 
+.btn-index {
+    max-width: 6rem;
+}
+
 @media only screen and (max-width: 768px) {
     .logo-index {
         width: 150px;
-        height: 80px;
+        height: 70px;
     }
 }
