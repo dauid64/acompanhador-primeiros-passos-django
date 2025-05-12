@@ -62,7 +62,7 @@ class LoginViewsTest(TestCase):
         invalid_data[field] = value
         response = self.client.post(reverse('authentication:login'), data=invalid_data)
         result_form = response.context['form']
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
         self.assertFalse(result_form.is_valid())
         self.assertIn(field, result_form.errors)
         self.assertEqual(result_form.errors[field], ['Este campo é obrigatório.'])
@@ -78,7 +78,7 @@ class LoginViewsTest(TestCase):
         invalid_data[field] = value
         response = self.client.post(reverse('authentication:login'), data=invalid_data)
         result_form = response.context['form']
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
         self.assertFalse(result_form.is_valid())
         self.assertIn('__all__', result_form.errors)
         self.assertEqual(result_form.errors['__all__'], ['Nome de usuário ou senha inválida.'])

@@ -30,7 +30,8 @@ class CadastroView(View):
             self.template_name,
             {
                 'form': form
-            }
+            },
+            status=400
         )
 
 class LoginView(TemplateView):
@@ -63,5 +64,6 @@ class LoginView(TemplateView):
             self.template_name,
             {
                 'form': form
-            }
+            },
+            status=400
         )

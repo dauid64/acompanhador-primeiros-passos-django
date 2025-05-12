@@ -52,7 +52,7 @@ class CadastroViewsTest(TestCase):
         invalid_data[field] = value
         response = self.client.post(reverse('authentication:cadastro'), data=invalid_data)
         result_form = response.context['form']
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
         self.assertFalse(result_form.is_valid())
         self.assertIn(field, result_form.errors)
         self.assertEqual(result_form.errors[field], ['Este campo é obrigatório.'])
@@ -79,7 +79,7 @@ class CadastroViewsTest(TestCase):
 
         response = self.client.post(reverse('authentication:cadastro'), data=invalid_data)
         result_form = response.context['form']
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
         self.assertFalse(result_form.is_valid())
         self.assertIn(field, result_form.errors)
         self.assertEqual(result_form.errors[field], [error_message])
