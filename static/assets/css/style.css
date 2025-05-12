@@ -23,6 +23,7 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
+    box-sizing: border-box;
 }
 
 a {
@@ -63,11 +64,12 @@ p {
     font-size: 1.1rem;
     line-height: 1.6;
     color: var(--text-color);
-    margin: 0 0 0rem;
+    margin: 0 0 0.5rem;
 }
 
 .container-all-with-header {
     height: 90vh;
+    overflow: auto;
 }
 
 .centralize {
@@ -185,5 +187,4 @@ p {
   border-radius: 5px;
   color: var(--color-red);
   width: 100%;
-  box-sizing: border-box;
 }
