@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     # Internal
     'authentication',
+    'capitulos',
 ]
 
 MIDDLEWARE = [
