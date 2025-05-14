@@ -1,0 +1,18 @@
+.table-dashboard {
+    margin: 2rem auto;
+    width: 80%;
+    overflow: auto;
+    min-width: 40rem;
+}
+
+.course-progress {
+    border-radius: 50%;
+    background-color: var(--secondary-background-color);
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}

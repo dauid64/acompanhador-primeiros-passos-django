@@ -4,11 +4,18 @@
 {% block head_title %}Dashboard{% endblock head_title %}
 
 {% block styles %}
-
+<link rel="stylesheet" href="{% static 'authentication/css/dashboard.css' %}">
 {% endblock styles %}
 
 {% block content %}
 <div class="container-all-with-header">
-
+    <h1 class="page-title">Dashboard</h1>
+    <div class="d-flex flex-centralize flex-column">
+        <span>Aqui você pode ver o seu progresso no curso.</span>
+        <span class="course-progress text-center">{{ percentual_exercicios_completos }}%</span>
+    </div>
+    <div class="table-dashboard">
+        {% include "authentication/partials/table_capitulos.html" %}
+    </div>
 </div>
 {% endblock %}
