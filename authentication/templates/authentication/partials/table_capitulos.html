@@ -12,8 +12,8 @@
             <tr>
                 <td>{{ capitulo.numero }} - {{ capitulo.titulo }}</td>
                 <td>{{ capitulo.exercicios_feitos }} / {{ capitulo.total_exercicios }}</td>
-                <td>0</td>
-                <td>0%</td>
+                <td><div class="progress-bar" data-progress="{{ capitulo.percentual_exercicios_completos }}"><div class="progress"></div></div></td>
+                <td>{{ capitulo.percentual_exercicios_completos }}%</td>
             </tr>
         {% endfor %}
     </tbody>

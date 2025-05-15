@@ -1,8 +1,6 @@
 .table-dashboard {
-    margin: 2rem auto;
-    width: 80%;
+    margin: 2rem 2rem;
     overflow: auto;
-    min-width: 40rem;
 }
 
 .course-progress {
@@ -15,4 +13,18 @@
     align-items: center;
     font-size: 1.2rem;
     font-weight: 600;
+}
+
+.progress-bar {
+    height: 1rem;
+    background-color: var(--color-gray);
+    border-radius: 0.5rem;
+}
+
+.progress-bar .progress {
+    width: 0%;
+    height: 100%;
+    background-color: var(--secondary-color);
+    border-radius: 0.5rem;
+    transition: width 0.5s ease;
 }

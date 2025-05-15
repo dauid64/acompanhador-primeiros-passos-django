@@ -96,12 +96,18 @@ class DashboardView(TemplateView):
                 filter=Q(exercicios__exercicios_usuario__usuario=usuario, exercicios__exercicios_usuario__feito=True),
                 distinct=True
             )
-        ).prefetch_related('exercicios__exercicios_usuario', 'exercicios')
+        )
+
+        for capitulo in capitulos:
+            if capitulo.total_exercicios > 0:
+                capitulo.percentual_exercicios_completos = (capitulo.exercicios_feitos / capitulo.total_exercicios) * 100
+            else:
+                capitulo.percentual_exercicios_completos = 0
 
         total_exercicios_feitos = ExercicioUsuario.objects.filter(usuario=usuario, feito=True).count()
         total_exercicios = Exercicio.objects.count()
-        percentual_exercicios_completos = total_exercicios_feitos / total_exercicios * 100 if total_exercicios > 0 else 0
+        percentual_total_exercicios_completos = total_exercicios_feitos / total_exercicios * 100 if total_exercicios > 0 else 0
 
-        ctx['percentual_exercicios_completos'] = percentual_exercicios_completos
+        ctx['percentual_total_exercicios_completos'] = round(percentual_total_exercicios_completos, 2)
         ctx['capitulos'] = capitulos
         return ctx

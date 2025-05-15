@@ -203,8 +203,7 @@ table {
 }
 
 th, td {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding: 12px;
     text-align: center;
     border-bottom: 1px solid var(--color-gray);
 }
