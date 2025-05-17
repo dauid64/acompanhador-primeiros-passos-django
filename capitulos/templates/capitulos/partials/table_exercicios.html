@@ -1,0 +1,32 @@
+<table>
+    <thead>
+        <tr>
+            <th>Exercício</th>
+            <th>Feito</th>
+            <th>Dificuldade</th>
+            <th>Nota</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for exercicio_usuario in exercicios_usuario %}
+            <tr>
+                <td>{{ exercicio_usuario.exercicio.nome }}</td>
+                <td>{{ exercicio_usuario.feito }}</td>
+                <td class="rating">
+                    <div class="info" data-url="{% url 'capitulos:dificuldade_update' exercicio_usuario.id %}"></div>
+                    <input type="radio" id="star0_{{ exercicio_usuario.id }}" name="nota" value="0">
+                    <label for="star0_{{ exercicio_usuario.id }}" title="0 estrelas" class="change-dificuldade"><i class="fa-solid fa-star {% if exercicio_usuario.dificuldade >= 0 %}checked{% endif %}"></i></label>
+                    <input type="radio" id="star1_{{ exercicio_usuario.id }}" name="nota" value="1">
+                    <label for="star1_{{ exercicio_usuario.id }}" title="1 estrelas" class="change-dificuldade"><i class="fa-solid fa-star {% if exercicio_usuario.dificuldade >= 1 %}checked{% endif %}"></i></label>
+                    <input type="radio" id="star2_{{ exercicio_usuario.id }}" name="nota" value="2">
+                    <label for="star2_{{ exercicio_usuario.id }}" title="2 estrelas" class="change-dificuldade"><i class="fa-solid fa-star {% if exercicio_usuario.dificuldade >= 2 %}checked{% endif %}"></i></label>
+                    <input type="radio" id="star3_{{ exercicio_usuario.id }}" name="nota" value="3">
+                    <label for="star3_{{ exercicio_usuario.id }}" title="3 estrelas" class="change-dificuldade"><i class="fa-solid fa-star {% if exercicio_usuario.dificuldade >= 3 %}checked{% endif %}"></i></label>
+                    <input type="radio" id="star4_{{ exercicio_usuario.id }}" name="nota" value="4">
+                    <label for="star4_{{ exercicio_usuario.id }}" title="4 estrela" class="change-dificuldade"><i class="fa-solid fa-star {% if exercicio_usuario.dificuldade >= 4 %}checked{% endif %}"></i></label>
+                </td>
+                <td>{{ exercicio_usuario.nota }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

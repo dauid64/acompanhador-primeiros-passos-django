@@ -10,31 +10,25 @@ class Capitulo(models.Model):
         return self.titulo
     
 class Exercicio(models.Model):
-    class Dificuldade(models.TextChoices):
-        MUITO_FACIL = 'Muito Fácil'
-        FACIL = 'Fácil'
-        MEDIO = 'Médio'
-        DIFICIL = 'Difícil'
-        MUITO_DIFICIL = 'Muito Difícil'
-
     capitulo = models.ForeignKey(Capitulo, on_delete=models.CASCADE, related_name='exercicios')
+    nome = models.CharField(max_length=200)
     enunciado = models.TextField()
 
     def __str__(self):
         return f"Exercício {self.id} - {self.capitulo.titulo}"
 
 class ExercicioUsuario(models.Model):
-    class Dificuldade(models.TextChoices):
-        MUITO_FACIL = 'Muito Fácil'
-        FACIL = 'Fácil'
-        MEDIO = 'Médio'
-        DIFICIL = 'Difícil'
-        MUITO_DIFICIL = 'Muito Difícil'
+    class Rating(models.IntegerChoices):
+        ZERO = "0"
+        UM = "1"
+        DOIS = "2"
+        TRES = "3"
+        QUATRO = "4"
 
     exercicio = models.ForeignKey(Exercicio, on_delete=models.CASCADE, related_name='exercicios_usuario')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exercicios_usuario')
-    dificuldade = models.CharField(choices=Dificuldade.choices, max_length=20, null=True, blank=True)
-    nota = models.IntegerField(null=True, blank=True)
+    dificuldade = models.IntegerField(choices=Rating.choices, null=True, blank=True)
+    nota = models.IntegerField(null=True, blank=True, choices=Rating.choices)
     feito = models.BooleanField(default=False)
 
     class Meta:

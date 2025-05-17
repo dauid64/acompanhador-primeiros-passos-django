@@ -1,0 +1,22 @@
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block head_title %}Dashboard{% endblock head_title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'capitulos/css/capitulos.css' %}">
+{% endblock styles %}
+
+{% block content %}
+{% csrf_token %}
+<div class="container-all-with-header">
+    <h1 class="page-title">{{ capitulo.numero }} - {{ capitulo.titulo }}</h1>
+    <div class="container-table">
+        {% include "capitulos/partials/table_exercicios.html" %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'capitulos/js/capitulos.js' %}"></script>
+{% endblock %}

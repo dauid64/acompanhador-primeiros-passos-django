@@ -1,0 +1,11 @@
+.rating input {
+    display: none;
+}
+
+.checked {
+  color: orange;
+}
+
+.rating label {
+    cursor: pointer;
+}
