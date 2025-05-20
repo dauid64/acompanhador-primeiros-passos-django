@@ -2,8 +2,12 @@
     display: none;
 }
 
-.checked {
+.fa-star.checked {
   color: orange;
+}
+
+.fa-heart.checked {
+  color: red;
 }
 
 .rating label {

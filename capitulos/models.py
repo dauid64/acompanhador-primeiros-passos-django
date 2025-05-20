@@ -19,11 +19,11 @@ class Exercicio(models.Model):
 
 class ExercicioUsuario(models.Model):
     class Rating(models.IntegerChoices):
-        ZERO = "0"
-        UM = "1"
-        DOIS = "2"
-        TRES = "3"
-        QUATRO = "4"
+        MUITO_RUIM = "0"
+        RUIM = "1"
+        MAIS_OU_MENOS = "2"
+        BOM = "3"
+        MUITO_BOM = "4"
 
     exercicio = models.ForeignKey(Exercicio, on_delete=models.CASCADE, related_name='exercicios_usuario')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exercicios_usuario')
