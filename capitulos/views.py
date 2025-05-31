@@ -79,3 +79,17 @@ class NotaUpdateView(View):
             return HttpResponse(status=204)
         else:
             return HttpResponse(status=400)
+
+
+@method_decorator(login_required, name='dispatch')
+class ExercicioUsuarioDetailView(DetailView):
+    model = ExercicioUsuario
+    template_name = 'capitulos/pages/detail_exercicio_usuario.html'
+    context_object_name = 'exercicio_usuario'
+
+    def get_queryset(self):
+        return super().get_queryset().select_related('exercicio')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     # External
     'debug_toolbar',
+    'prose',
 ]
 
 MIDDLEWARE = [
@@ -137,6 +138,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [STATIC_DIR]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediaroot')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -149,3 +153,5 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+PROSE_ATTACHMENT_ALLOWED_FILE_SIZE = 15
