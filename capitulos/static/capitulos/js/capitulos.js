@@ -74,3 +74,28 @@ $(".change-nota").on("click", function () {
     });
 });
 
+$('.change-feito').on("click", function () {
+    const label = $(this).closest('.container-checkbox');
+    const infoDiv = label.find('.info');
+    const url = infoDiv.data("url");
+    const feito = this.checked;
+    const csrfToken = $("input[name='csrfmiddlewaretoken']").val();
+
+    const data = new FormData();
+    data.append("feito", feito);
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        headers: {
+            "X-CSRFToken": csrfToken,
+        },
+        error: function (xhr, status, error) {
+            alert("Erro ao enviar requisição. Tente novamente mais tarde.");
+        },
+    });
+})

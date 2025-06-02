@@ -80,6 +80,17 @@ class NotaUpdateView(View):
         else:
             return HttpResponse(status=400)
 
+@method_decorator(login_required, name='dispatch')
+class FeitoUpdateView(View):
+    def post(self, request, pk, *args, **kwargs):
+        exercicio_usuario = get_object_or_404(ExercicioUsuario, id=pk)
+        if exercicio_usuario.usuario != request.user:
+            return HttpResponse(status=401)
+        feito = request.POST.get('feito', 'false').lower() == 'true'
+        exercicio_usuario.feito = feito
+        exercicio_usuario.save()
+        return HttpResponse(status=204)
+
 
 @method_decorator(login_required, name='dispatch')
 class ExercicioUsuarioDetailView(DetailView):

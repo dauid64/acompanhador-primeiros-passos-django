@@ -12,10 +12,13 @@
             <tr>
                 <td>{{ exercicio_usuario.exercicio.nome }}</td>
                 <td>
-                    <label class="container-checkbox">
-                        <input type="checkbox" checked="checked">
-                        <span class="checkmark"></span>
-                    </label>
+                    <div class="d-flex flex-centralize">
+                        <label class="container-checkbox">
+                            <div class="info" data-url="{% url 'capitulos:feito_update' exercicio_usuario.id %}"></div>
+                            <input type="checkbox" class="change-feito" {{ exercicio_usuario.feito|yesno:"checked," }} id="feito_{{ exercicio_usuario.id }}">
+                            <span class="checkmark"/>
+                        </label>
+                    </div>
                 </td>
                 <td class="rating-dificuldade rating">
                     <div class="info" data-url="{% url 'capitulos:dificuldade_update' exercicio_usuario.id %}"></div>

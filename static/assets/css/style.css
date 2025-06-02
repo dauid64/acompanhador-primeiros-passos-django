@@ -228,14 +228,43 @@ thead tr th {
 }
 
 input[type="checkbox"] {
-   display: none;
+   position: absolute;
+   opacity: 0;
+   visibility: hidden;
 }
 
-.checkmark {
+.container-checkbox {
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 20px;
+}
+
+.container-checkbox .checkmark {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-gray);
+    border: solid 1px var(--color-gray);
+    border-radius: 5px;
     cursor: pointer;
-    user-select: none;
+}
+
+.container-checkbox input[type="checkbox"]:checked + .checkmark {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.container-checkbox input[type="checkbox"]:checked + .checkmark::after {
+    content: '✔';
     position: relative;
-    padding-left: 30px;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
 }
