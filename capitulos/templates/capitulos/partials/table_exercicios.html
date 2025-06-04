@@ -5,6 +5,7 @@
             <th>Feito</th>
             <th>Dificuldade</th>
             <th>Nota</th>
+            <th>Ação</th>
         </tr>
     </thead>
     <tbody>
@@ -45,6 +46,9 @@
                     <label for="heart3_{{ exercicio_usuario.id }}" title="3 estrelas" class="change-nota"><i class="fa-solid fa-heart {% if exercicio_usuario.nota >= 3 %}checked{% endif %}"></i></label>
                     <input type="radio" id="heart4_{{ exercicio_usuario.id }}" name="nota" value="4">
                     <label for="heart4_{{ exercicio_usuario.id }}" title="4 estrela" class="change-nota"><i class="fa-solid fa-heart {% if exercicio_usuario.nota >= 4 %}checked{% endif %}"></i></label>
+                </td>
+                <td>
+                    <a href="{% url 'capitulos:exercicio_usuario_detail' exercicio_usuario.id %}" class="btn btn-primary btn-table">Ver Exercício</a>
                 </td>
             </tr>
         {% endfor %}

@@ -4,9 +4,13 @@
 {% block head_title %}{{ exercicio_usuario.exercicio.nome }}{% endblock head_title %}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'capitulos/css/exercicio_usuario.css' %}">
 {% endblock styles %}
 
 {% block content %}
+<div class="exercicio-container">
+    {{ exercicio_usuario.exercicio.enunciado | safe }}
+</div>
 {% endblock %}
 
 {% block scripts %}
