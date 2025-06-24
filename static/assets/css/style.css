@@ -268,3 +268,8 @@ input[type="checkbox"] {
     color: white;
     font-size: 14px;
 }
+
+li {
+    text-align: left;
+    margin: 0.5rem 0;
+}
