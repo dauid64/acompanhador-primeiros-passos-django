@@ -5,7 +5,6 @@ from prose.fields import RichTextField
 class Capitulo(models.Model):
     titulo = models.CharField(max_length=200)
     numero = models.IntegerField()
-    link = models.URLField(max_length=200)
 
     def __str__(self):
         return self.titulo
@@ -14,6 +13,7 @@ class Exercicio(models.Model):
     capitulo = models.ForeignKey(Capitulo, on_delete=models.CASCADE, related_name='exercicios')
     nome = models.CharField(max_length=200)
     enunciado = RichTextField()
+    link = models.URLField(max_length=200)
 
     def __str__(self):
         return f"Exercício {self.id} - {self.capitulo.titulo}"

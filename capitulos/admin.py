@@ -4,7 +4,7 @@ from .models import Capitulo, Exercicio, ExercicioUsuario
 
 @admin.register(Capitulo)
 class CapituloAdmin(admin.ModelAdmin):
-    list_display = ('numero', 'titulo', 'link')
+    list_display = ('numero', 'titulo')
     search_fields = ('titulo',)
     ordering = ('numero',)
 

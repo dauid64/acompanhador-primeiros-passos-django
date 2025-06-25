@@ -11,7 +11,9 @@
     <tbody>
         {% for exercicio_usuario in exercicios_usuario %}
             <tr>
-                <td>{{ exercicio_usuario.exercicio.nome }}</td>
+                <td>
+                    <a href="{{ exercicio_usuario.exercicio.link }}">{{ exercicio_usuario.exercicio.nome }}</a>
+                </td>
                 <td>
                     <div class="d-flex flex-centralize">
                         <label class="container-checkbox">
