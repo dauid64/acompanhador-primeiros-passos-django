@@ -11,6 +11,11 @@ from django.db.models import Count, Q
 class IndexView(TemplateView):
     template_name = 'authentication/pages/index.html'
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('authentication:home')
+        return render(request, self.template_name)
+
 class CadastroView(View):
     template_name = 'authentication/pages/cadastro.html'
 
