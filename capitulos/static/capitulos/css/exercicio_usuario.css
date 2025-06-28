@@ -1,7 +1,6 @@
 .exercicio-container {
     margin: 2rem auto;
-    width: 60%;
-    text-align: center;
+    width: 80%;
 }
 
 .exercicio-container pre {
@@ -18,4 +17,12 @@
 
 .exercicio-container img {
     max-width: 100%;
+}
+
+.exercicio-container h1 {
+    text-align: center;
+}
+
+.exercicio-container figure {
+    text-align: center;
 }
