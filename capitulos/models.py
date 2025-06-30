@@ -1,3 +1,4 @@
+from random import randrange
 from django.db import models
 from django.contrib.auth.models import User
 from prose.fields import RichTextField
@@ -10,7 +11,7 @@ class Capitulo(models.Model):
         return str(self.numero) + " - " + self.titulo
     
 class Exercicio(models.Model):
-    ordem = models.IntegerField()
+    ordem = models.IntegerField(default=randrange(1000, 9999))
     capitulo = models.ForeignKey(Capitulo, on_delete=models.CASCADE, related_name='exercicios')
     nome = models.CharField(max_length=200)
     enunciado = RichTextField()
