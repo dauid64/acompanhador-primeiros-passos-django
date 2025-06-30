@@ -44,7 +44,7 @@ class CapituloDetailView(DetailView):
                 id__in=exercicios_usuarios_criados_ids
             ).select_related('exercicio')
             exercicios_usuario.extend(exercicios_usuarios_novos)
-        exercicios_usuario.sort(key=lambda x: x.exercicio.ordem)
+        exercicios_usuario.sort(key=lambda x: x.exercicio.ordem, reverse=True)
         context['exercicios_usuario'] = exercicios_usuario
         return context
 
