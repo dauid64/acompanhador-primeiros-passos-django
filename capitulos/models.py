@@ -7,13 +7,20 @@ class Capitulo(models.Model):
     numero = models.IntegerField()
 
     def __str__(self):
-        return self.titulo
+        return str(self.numero) + " - " + self.titulo
     
 class Exercicio(models.Model):
+    ordem = models.IntegerField()
     capitulo = models.ForeignKey(Capitulo, on_delete=models.CASCADE, related_name='exercicios')
     nome = models.CharField(max_length=200)
     enunciado = RichTextField()
     link = models.URLField(max_length=200)
+
+    class Meta:
+        ordering = ['ordem']
+        constraints = [
+            models.UniqueConstraint(fields=['capitulo', 'ordem'], name='unique_capitulo_ordem')
+        ]
 
     def __str__(self):
         return f"Exercício {self.id} - {self.capitulo.titulo}"
@@ -26,10 +33,17 @@ class ExercicioUsuario(models.Model):
         BOM = "3"
         MUITO_BOM = "4"
 
+    class RatingDificulty(models.IntegerChoices):
+        MUITO_FACIL = "0"
+        FACIL = "1"
+        MEDIO = "2"
+        DIFICIL = "3"
+        MUITO_DIFICIL = "4"
+
     exercicio = models.ForeignKey(Exercicio, on_delete=models.CASCADE, related_name='exercicios_usuario')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exercicios_usuario')
-    dificuldade = models.IntegerField(choices=Rating.choices, null=True, blank=True)
-    nota = models.IntegerField(null=True, blank=True, choices=Rating.choices)
+    dificuldade = models.IntegerField(choices=Rating.choices, null=True, blank=True, default=RatingDificulty.MUITO_FACIL)
+    nota = models.IntegerField(null=True, blank=True, choices=Rating.choices, default=Rating.MUITO_BOM)
     feito = models.BooleanField(default=False)
 
     class Meta:

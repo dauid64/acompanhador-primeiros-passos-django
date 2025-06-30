@@ -10,7 +10,8 @@
 {% block content %}
 {% csrf_token %}
 <div class="container-all-with-header">
-    <h1 class="page-title">{{ capitulo.numero }} - {{ capitulo.titulo }}</h1>
+    {% url 'authentication:dashboard' as dashboard_url %}
+    {% include "capitulos/partials/title_pages.html" with titulo=capitulo url=dashboard_url %}
     <div class="container-table">
         {% include "capitulos/partials/table_exercicios.html" %}
     </div>

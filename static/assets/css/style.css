@@ -138,6 +138,16 @@ p {
     transform: translateY(-2px);
 }
 
+.btn-danger {
+    background-color: var(--color-red);
+    color: var(--color-white);
+}
+
+.btn-danger:hover {
+    background-color: darken(var(--color-red), 10%);
+    transform: translateY(-2px);
+}
+
 .container-form {
     display: flex;
     flex-direction: column;
@@ -220,7 +230,7 @@ thead tr th {
 }
 
 .page-title {
-    margin: 1rem;
+    margin: 1rem 0;
 }
 
 .btn-table {
@@ -272,4 +282,21 @@ input[type="checkbox"] {
 li {
     text-align: left;
     margin: 0.5rem 0;
+}
+
+.container-title-pages {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.container-btn-return-page {
+    width: fit-content;
+}
+
+.errorlist {
+    margin: 0;
+}
+
+.errorlist li {
+    margin: 0;
 }

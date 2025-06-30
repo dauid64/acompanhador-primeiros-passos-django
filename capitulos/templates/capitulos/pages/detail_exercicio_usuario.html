@@ -8,8 +8,12 @@
 {% endblock styles %}
 
 {% block content %}
-<div class="exercicio-container">
-    {{ exercicio_usuario.exercicio.enunciado | safe }}
+<div class="container-all-with-header">
+    {% url 'capitulos:capitulo_detail' exercicio_usuario.exercicio.capitulo.id as capitulo_detail_url %}
+    {% include "capitulos/partials/title_pages.html" with titulo=exercicio_usuario.exercicio.nome url=capitulo_detail_url %}
+    <div class="exercicio-container">
+        {{ exercicio_usuario.exercicio.enunciado | safe }}
+    </div>
 </div>
 {% endblock %}
 
