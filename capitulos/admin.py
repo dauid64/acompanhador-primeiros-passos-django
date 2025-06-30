@@ -11,7 +11,7 @@ class CapituloAdmin(admin.ModelAdmin):
 
 @admin.register(Exercicio)
 class ExercicioAdmin(admin.ModelAdmin):
-    list_display = ('id', 'capitulo', 'enunciado_curto')
+    list_display = ('id', 'ordem', 'capitulo', 'enunciado_curto')
     search_fields = ('enunciado', 'capitulo__titulo')
     list_filter = ('capitulo',)
 
