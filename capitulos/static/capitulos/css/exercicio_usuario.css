@@ -1,6 +1,7 @@
 .exercicio-container {
     margin: 2rem auto;
     width: 80%;
+    line-height: 1.6rem;
 }
 
 .exercicio-container pre {
