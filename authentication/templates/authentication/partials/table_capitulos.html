@@ -14,7 +14,7 @@
                 <td><strong>{{ capitulo.numero }} - {{ capitulo.titulo }}</strong></td>
                 <td>{{ capitulo.exercicios_feitos }} / {{ capitulo.total_exercicios }}</td>
                 <td><div class="progress-bar" data-progress="{{ capitulo.percentual_exercicios_completos }}"><div class="progress"></div></div></td>
-                <td>{{ capitulo.percentual_exercicios_completos }}%</td>
+                <td>{{ capitulo.percentual_exercicios_completos|floatformat:2 }}%</td>
                 <td>
                     <a href="{% url 'capitulos:capitulo_detail' capitulo.id %}" class="btn btn-primary btn-table">Ver Exercícios</a>
                 </td>
