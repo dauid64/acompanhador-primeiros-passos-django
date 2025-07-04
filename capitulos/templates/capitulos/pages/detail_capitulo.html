@@ -9,7 +9,7 @@
 
 {% block content %}
 {% csrf_token %}
-<div class="container-all-with-header">
+<div class="container-all-with-header-footer">
     {% url 'authentication:dashboard' as dashboard_url %}
     {% include "capitulos/partials/title_pages.html" with titulo=capitulo url=dashboard_url %}
     <div class="container-table">
