@@ -89,7 +89,7 @@ p {
     background-color: var(--card-bg);
     border-radius: 16px;
     box-shadow: 10px 20px 30px var(--shadow-color);
-    padding: 40px;
+    margin: 20px;
     max-width: 31rem;
     transition: transform 0.3s ease;
 }
