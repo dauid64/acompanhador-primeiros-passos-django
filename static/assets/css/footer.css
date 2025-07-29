@@ -3,10 +3,11 @@
     color: rgba(255, 255, 255, 0.8);
     text-align: center;
     font-size: 0.9rem;
-    height: 4vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0.5rem;
+    gap: 0.5rem;
 }
 
 .footer a {

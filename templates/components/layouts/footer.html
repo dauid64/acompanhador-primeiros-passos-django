@@ -1,3 +1,8 @@
-<footer class="footer">
-    &copy; 2025 <a href="https://www.linkedin.com/in/carlos-david-castro-de-souza-neto-795a83210"> Carlos David</a>. Todos os direitos reservados.
+{% load static %}
+
+<footer class="footer d-flex flex-column">
+    <span>&copy; 2025 <a href="https://www.linkedin.com/in/carlos-david-castro-de-souza-neto-795a83210"> Carlos David</a>. Todos os direitos reservados.</span>
+    <a href="https://discord.gg/uJ548zjh" class="d-flex flex-centralize">
+        <img src="{% static "assets/imgs/discord-icon.svg" %}" alt="Logo Discord" width="20" height="20"> <span style="padding-left: 3px;">Entre no nosso Discord!</span>
+    </a>
 </footer>
