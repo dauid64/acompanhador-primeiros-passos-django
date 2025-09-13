@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ValidationError
 
 from capitulos.models import Exercicio
 from django.contrib.auth.models import User
@@ -18,3 +19,13 @@ class Comentario(models.Model):
     
     def __str__(self):
         return 'Comment by {}'.format(self.usuario.username)
+    
+    def clean(self):
+        errors = {}
+
+        if self.parent:
+            if self.parent.exercicio != self.exercicio:
+                errors['parent'] = 'A resposta deve estar associada ao mesmo exercício do comentário pai.'
+
+        if errors:
+            raise ValidationError(errors)

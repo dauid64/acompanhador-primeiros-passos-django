@@ -18,5 +18,7 @@ class ComentariosCreateView(CreateView):
             "nome_usuario": mensagem_criada.usuario.username,
             "body": mensagem_criada.body,
             "created_at": mensagem_criada.created_at.strftime("%d/%m/%Y %H:%M:%S"),
+            "parent_id": mensagem_criada.parent_id,
+            "is_reply": bool(mensagem_criada.parent_id)
         })
     

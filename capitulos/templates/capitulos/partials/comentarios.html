@@ -29,18 +29,34 @@
                     </div>
                     <div class="comment-content">{{ comentario.body }}</div>
                     <div class="comment-actions">
-                        <button class="btn btn-small btn-reply" data-comment-id="{{ comentario.id }}">Responder</button>
+                        <button class="btn btn-small btn-secondary btn-reply-toggle" data-comment-id="{{ comentario.id }}">Responder</button>
                     </div>
-                    <div class="reply-form" id="replyForm-{{ comentario.id }}">
+                    <form class="reply-form" id="replyForm-{{ comentario.id }}" style="display:none;">
+                        {% csrf_token %}
+                        <input type="hidden" name="exercicio" value="{{ comentario.exercicio.id }}">
+                        <input type="hidden" name="parent" value="{{ comentario.id }}">
                         <div class="form-group">
-                            <input type="text" id="replyAuthor-{{ comentario.id }}" required placeholder="Digite seu nome">
+                            <label for="replyText-{{ comentario.id }}">Resposta:</label>
+                            <textarea id="replyText-{{ comentario.id }}" name="body" required placeholder="Escreva sua resposta..."></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="replyText-${comment.id}">Resposta:</label>
-                            <textarea id="replyText-${comment.id}" required placeholder="Escreva sua resposta..."></textarea>
+                        <div class="buttons">
+                            <button type="submit" class="btn btn-small btn-primary">Publicar Resposta</button>
+                            <button type="button" class="btn btn-small btn-cancel-reply btn-secondary" data-comment-id="{{ comentario.id }}">Cancelar</button>
                         </div>
-                        <button class="btn btn-small btn-reply" onclick="submitReply(${comment.id})">Publicar Resposta</button>
-                        <button type="button" class="btn btn-small btn-cancel" onclick="cancelReply(${comment.id})">Cancelar</button>
+                    </form>
+                    <div class="replies" id="replies-{{ comentario.id }}">
+                        {% for resposta in comentario.respostas.all %}
+                        <div class="reply">
+                            <div class="comment-header">
+                                <div class="comment-avatar">{{ resposta.usuario.username|slice:":2" }}</div>
+                                <div class="comment-info">
+                                    <h4>{{ resposta.usuario.username }}</h4>
+                                    <span class="comment-date">{{ resposta.created_at|date:"d/m/Y H:i:s" }}</span>
+                                </div>
+                            </div>
+                            <div class="comment-content">{{ resposta.body }}</div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             {% empty %}

@@ -107,4 +107,5 @@ class ExercicioUsuarioDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['comentario_form'] = ComentarioForm(initial={'exercicio': self.object.exercicio})
         context['comentarios'] = self.object.exercicio.get_comentarios()
+        context['comentarios_data'] = context['comentarios'].values('id', 'created_at', 'updated_at', 'usuario__username', 'body', 'parent_id')
         return context

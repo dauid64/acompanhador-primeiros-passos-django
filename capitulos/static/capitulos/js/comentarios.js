@@ -1,153 +1,140 @@
-$(document).ready(function() {
-    let comments = [];
-    let commentIdCounter = 1;
+// static/capitulos/js/comentarios.js
+$(document).ready(function () {
+  // Mantém sua leitura dos comentários iniciais (se houver)
+  let comments = JSON.parse(document.getElementById('comentarios-data')?.textContent || '[]');
 
-    function generateAvatar(name) {
-        return name.split(' ').map(word => word[0]).join('').substring(0, 2);
+  // Util para avatar com iniciais (usa o nome do usuário)
+  function generateAvatar(name) {
+    if (!name) return '??';
+    return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  }
+
+  // Atualiza o contador (use só para COMENTÁRIOS raiz, não para respostas)
+  function incrementCommentsCount() {
+    const $el = $('#commentsCount');
+    const txt = $el.text();
+    const n = parseInt(txt.replace(' comentários','').replace(' comentário','')) || 0;
+    const total = n + 1;
+    $el.text(`${total} ${total === 1 ? 'comentário' : 'comentários'}`);
+  }
+
+  // ----- Envio de COMENTÁRIO raiz (já existia) -----
+  $('#commentForm').on('submit', async function (e) {
+    e.preventDefault();
+    const btn = $('#commentForm button[type="submit"]');
+    btn.prop('disabled', true);
+    try {
+      const text = $('#id_body').val().trim();
+      if (!text) return;
+
+      const csrfToken = $("#commentForm input[name='csrfmiddlewaretoken']").val();
+      const resp = await fetch("/comentarios/create", {
+        method: "POST",
+        headers: { "X-CSRFToken": csrfToken },
+        body: new FormData(this)
+      });
+
+      if (!resp.ok) throw new Error(resp.statusText);
+      const data = await resp.json();
+
+      // Renderiza no topo da lista
+      const $list = $('#commentsList');
+      const html = `
+        <div class="comment" data-comment-id="${data.id}">
+          <div class="comment-header">
+            <div class="comment-avatar">${generateAvatar(data.nome_usuario)}</div>
+            <div class="comment-info">
+              <h4>${data.nome_usuario}</h4>
+              <span class="comment-date">${data.created_at}</span>
+            </div>
+          </div>
+          <div class="comment-content">${data.body}</div>
+          <div class="comment-actions">
+            <button type="button" class="btn btn-small btn-reply-toggle btn-secondary" data-comment-id="${data.id}">Responder</button>
+          </div>
+          <form class="reply-form" id="replyForm-${data.id}" style="display:none;">
+            <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
+            <input type="hidden" name="exercicio" value="${$('#commentForm [name=exercicio]').val()}">
+            <input type="hidden" name="parent" value="${data.id}">
+            <div class="form-group">
+              <label for="replyText-${data.id}">Resposta:</label>
+              <textarea id="replyText-${data.id}" name="body" required placeholder="Escreva sua resposta..."></textarea>
+            </div>
+            <div class="buttons">
+              <button type="submit" class="btn btn-small btn-primary">Publicar Resposta</button>
+              <button type="button" class="btn btn-small btn-cancel-reply btn-secondary" data-comment-id="${data.id}">Cancelar</button>
+            </div>
+          </form>
+          <div class="replies" id="replies-${data.id}"></div>
+        </div>`;
+      $list.prepend(html);
+
+      $('#id_body').val('');
+      incrementCommentsCount();
+    } catch (err) {
+      console.error("Erro ao enviar comentário:", err);
+      alert("Erro ao enviar comentário. Tente novamente.");
+    } finally {
+      btn.prop('disabled', false);
     }
+  });
 
-    // Função para atualizar contador de comentários
-    function updateCommentsCount() {
-        const commentsCountText = $('#commentsCount').text();
-        const commentsCount = parseInt(commentsCountText.replace(" comentários", "").replace(" comentário", "")) || 0;
-        const totalComments = commentsCount + 1;
-        
-        $('#commentsCount').text(`${totalComments} ${totalComments === 1 ? 'comentário' : 'comentários'}`);
+  // ----- Mostrar/ocultar o formulário de resposta -----
+  $(document).on('click', '.btn-reply-toggle', function () {
+    const id = $(this).data('comment-id');
+    const $form = $(`#replyForm-${id}`);
+    $form.toggle(); // alterna mostrar/ocultar
+    if ($form.is(':visible')) $form.find('textarea').focus();
+  });
+
+  $(document).on('click', '.btn-cancel-reply', function () {
+    const id = $(this).data('comment-id');
+    const $form = $(`#replyForm-${id}`);
+    $form.find('textarea').val('');
+    $form.hide();
+  });
+
+  // ----- Envio de RESPOSTA (delegação em cada form .reply-form) -----
+  $(document).on('submit', '.reply-form', async function (e) {
+    e.preventDefault();
+    const $form = $(this);
+    const btn = $form.find('button[type="submit"]');
+    btn.prop('disabled', true);
+    try {
+      const body = $form.find('textarea[name="body"]').val().trim();
+      if (!body) return;
+
+      const resp = await fetch("/comentarios/create", {
+        method: "POST",
+        headers: { "X-CSRFToken": $form.find('input[name="csrfmiddlewaretoken"]').val() },
+        body: new FormData(this)
+      });
+      if (!resp.ok) throw new Error(resp.statusText);
+      const data = await resp.json();
+
+      // Adiciona a resposta no container do pai
+      const $replies = $(`#replies-${data.parent_id}`);
+      const replyHtml = `
+        <div class="reply">
+          <div class="comment-header">
+            <div class="comment-avatar">${generateAvatar(data.nome_usuario)}</div>
+            <div class="comment-info">
+              <h4>${data.nome_usuario}</h4>
+              <span class="comment-date">${data.created_at}</span>
+            </div>
+          </div>
+          <div class="comment-content">${data.body}</div>
+        </div>`;
+      $replies.append(replyHtml);
+
+      // limpa/fecha o form
+      $form.find('textarea[name="body"]').val('');
+      $form.hide();
+    } catch (err) {
+      console.error("Erro ao enviar resposta:", err);
+      alert("Erro ao enviar resposta. Tente novamente.");
+    } finally {
+      btn.prop('disabled', false);
     }
-
-    // Função para renderizar comentários
-    function renderComments() {
-        const $commentsList = $('#commentsList');
-
-        let html = '';
-        comments.forEach(comment => {
-            html += `
-                <div class="comment" data-comment-id="${comment.id}">
-                    <div class="comment-header">
-                        <div class="comment-avatar">${generateAvatar(comment.author)}</div>
-                        <div class="comment-info">
-                            <h4>${comment.author}</h4>
-                            <span class="comment-date">${comment.date}</span>
-                        </div>
-                    </div>
-                    <div class="comment-content">${comment.text}</div>
-                    <div class="comment-actions">
-                        <button class="btn btn-small btn-reply" data-comment-id="${comment.id}">Responder</button>
-                    </div>
-                    <div class="reply-form" id="replyForm-${comment.id}">
-                        <div class="form-group">
-                            <label for="replyAuthor-${comment.id}">Nome:</label>
-                            <input type="text" id="replyAuthor-${comment.id}" required placeholder="Digite seu nome">
-                        </div>
-                        <div class="form-group">
-                            <label for="replyText-${comment.id}">Resposta:</label>
-                            <textarea id="replyText-${comment.id}" required placeholder="Escreva sua resposta..."></textarea>
-                        </div>
-                        <button class="btn btn-small btn-reply" onclick="submitReply(${comment.id})">Publicar Resposta</button>
-                        <button type="button" class="btn btn-small btn-cancel" onclick="cancelReply(${comment.id})">Cancelar</button>
-                    </div>
-            `;
-
-            if (comment.replies && comment.replies.length > 0) {
-                html += '<div class="replies">';
-                comment.replies.forEach(reply => {
-                    html += `
-                        <div class="reply">
-                            <div class="comment-header">
-                                <div class="comment-avatar">${generateAvatar(reply.author)}</div>
-                                <div class="comment-info">
-                                    <h4>${reply.author}</h4>
-                                    <span class="comment-date">${reply.date}</span>
-                                </div>
-                            </div>
-                            <div class="comment-content">${reply.text}</div>
-                        </div>
-                    `;
-                });
-                html += '</div>';
-            }
-
-            html += '</div>';
-        });
-
-        $commentsList.html(html);
-        updateCommentsCount();
-    }
-
-    // Função para adicionar comentário
-    function addComment(id, author, text, data) {
-        const comment = {
-            id: id,
-            author: author,
-            text: text,
-            date: data,
-            replies: []
-        };
-        comments.push(comment);
-        renderComments();
-    }
-
-    // Função para adicionar resposta
-    function addReply(commentId, author, text) {
-        const comment = comments.find(c => c.id === commentId);
-        if (comment) {
-            const reply = {
-                id: commentIdCounter++,
-                author: author,
-                text: text,
-                date: new Date()
-            };
-            comment.replies.push(reply);
-            renderComments();
-        }
-    }
-
-    $('#commentForm').on('submit', async function(e) {
-        e.preventDefault();
-        const text = $('#id_body').val().trim();
-
-        if (text) {
-            try {
-                const csrfToken = $("#commentForm input[name='csrfmiddlewaretoken']").val();
-                const response = await fetch("/comentarios/create", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRFToken": csrfToken
-                    },
-                    body: new FormData(this)
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    addComment(data.id, data.nome_usuario, data.body, data.created_at);
-                    $('#id_body').val('');
-                } else {
-                    console.log("Erro ao enviar comentário:", response.statusText);
-                    alert("Erro ao enviar comentário. Tente novamente.");
-                }
-            } catch (error) {
-                console.log("Erro ao enviar comentário:", error);
-                alert("Erro ao enviar comentário. Tente novamente.");
-            }
-        }
-    });
-
-    // Função para submeter resposta
-    window.submitReply = function(commentId) {
-        const author = $(`#replyAuthor-${commentId}`).val().trim();
-        const text = $(`#replyText-${commentId}`).val().trim();
-
-        if (author && text) {
-            addReply(commentId, author, text);
-            $(`#replyAuthor-${commentId}`).val('');
-            $(`#replyText-${commentId}`).val('');
-            $(`#replyForm-${commentId}`).removeClass('active');
-        }
-    };
-
-    // Função para cancelar resposta
-    window.cancelReply = function(commentId) {
-        $(`#replyAuthor-${commentId}`).val('');
-        $(`#replyText-${commentId}`).val('');
-        $(`#replyForm-${commentId}`).removeClass('active');
-    };
-})
+  });
+});
