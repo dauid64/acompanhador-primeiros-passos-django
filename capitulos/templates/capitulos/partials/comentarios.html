@@ -1,0 +1,72 @@
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">💬 Comentários</h1>
+        <p class="page-subtitle">Compartilhe sua dúvidas e participe da discussão</p>
+    </div>
+
+    <form class="comment-form" id="commentForm">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ comentario_form.body.id_for_label }}">{{ comentario_form.body.label }}</label>
+            {{ comentario_form.body }}
+        </div>
+        {{ comentario_form.exercicio }}
+        <button type="submit" class="btn btn-primary">Publicar Comentário</button>
+    </form>
+
+    <div class="comments-section">
+        <h2 class="section-title">Discussão</h2>
+        <div class="comments-count" id="commentsCount">{{ comentarios.count }} comentários</div>
+        <div id="commentsList">
+            {% for comentario in comentarios %}
+                <div class="comment" data-comment-id="{{ comentario.id }}">
+                    <div class="comment-header">
+                        <div class="comment-avatar">{{ comentario.usuario.username|slice:":2" }}</div>
+                        <div class="comment-info">
+                            <h4>{{ comentario.usuario.username }}</h4>
+                            <span class="comment-date">{{ comentario.created_at|date:"d/m/Y H:i:s" }}</span>
+                        </div>
+                    </div>
+                    <div class="comment-content">{{ comentario.body }}</div>
+                    <div class="comment-actions">
+                        <button class="btn btn-small btn-secondary btn-reply-toggle" data-comment-id="{{ comentario.id }}">Responder</button>
+                    </div>
+                    <form class="reply-form" id="replyForm-{{ comentario.id }}" style="display:none;">
+                        {% csrf_token %}
+                        <input type="hidden" name="exercicio" value="{{ comentario.exercicio.id }}">
+                        <input type="hidden" name="parent" value="{{ comentario.id }}">
+                        <div class="form-group">
+                            <label for="replyText-{{ comentario.id }}">Resposta:</label>
+                            <textarea id="replyText-{{ comentario.id }}" name="body" required placeholder="Escreva sua resposta..."></textarea>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" class="btn btn-small btn-primary">Publicar Resposta</button>
+                            <button type="button" class="btn btn-small btn-cancel-reply btn-secondary" data-comment-id="{{ comentario.id }}">Cancelar</button>
+                        </div>
+                    </form>
+                    <div class="replies" id="replies-{{ comentario.id }}">
+                        {% for resposta in comentario.respostas.all %}
+                        <div class="reply">
+                            <div class="comment-header">
+                                <div class="comment-avatar">{{ resposta.usuario.username|slice:":2" }}</div>
+                                <div class="comment-info">
+                                    <h4>{{ resposta.usuario.username }}</h4>
+                                    <span class="comment-date">{{ resposta.created_at|date:"d/m/Y H:i:s" }}</span>
+                                </div>
+                            </div>
+                            <div class="comment-content">{{ resposta.body }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.04 1.05 4.36L1 22l5.64-2.05C8.96 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.4 0-2.76-.35-4.03-1.01L6.5 19.5l.51-1.47A7.893 7.893 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                    <p>Seja o primeiro a comentar!</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -25,6 +25,7 @@ urlpatterns = [
     path("", include("authentication.urls")),
     path("capitulos/", include("capitulos.urls")),
     path("prose/", include("prose.urls")),
+    path("comentarios/", include("comentarios.urls")),
 ]
 
 urlpatterns += debug_toolbar_urls()

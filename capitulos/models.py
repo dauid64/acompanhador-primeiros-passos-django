@@ -25,6 +25,9 @@ class Exercicio(models.Model):
 
     def __str__(self):
         return f"Exercício {self.id} - {self.capitulo.titulo}"
+    
+    def get_comentarios(self):
+        return self.comentarios.filter(active=True, parent__isnull=True).select_related('usuario').prefetch_related('respostas')
 
 class ExercicioUsuario(models.Model):
     class Rating(models.IntegerChoices):
