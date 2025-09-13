@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">💬 Comentários</h1>
+        <p class="page-subtitle">Compartilhe sua dúvidas e participe da discussão</p>
+    </div>
+
+    <form class="comment-form" id="commentForm">
+        <div class="form-group">
+            <label for="{{ comentario_form.body.id_for_label }}">{{ comentario_form.body.label }}</label>
+            {{ comentario_form.body }}
+        </div>
+        <button type="submit" class="btn btn-primary">Publicar Comentário</button>
+    </form>
+
+    <div class="comments-section">
+        <h2 class="section-title">Discussão</h2>
+        <div class="comments-count" id="commentsCount">0 comentários</div>
+        <div id="commentsList">
+            <div class="empty-state">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.04 1.05 4.36L1 22l5.64-2.05C8.96 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.4 0-2.76-.35-4.03-1.01L6.5 19.5l.51-1.47A7.893 7.893 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
+                </svg>
+                <p>Seja o primeiro a comentar!</p>
+            </div>
+        </div>
+    </div>
+</div>

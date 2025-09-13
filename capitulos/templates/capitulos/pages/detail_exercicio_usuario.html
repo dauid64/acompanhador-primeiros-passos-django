@@ -5,6 +5,7 @@
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'capitulos/css/exercicio_usuario.css' %}">
+<link rel="stylesheet" href="{% static 'capitulos/css/comentarios.css' %}">
 {% endblock styles %}
 
 {% block content %}
@@ -13,6 +14,7 @@
     {% include "capitulos/partials/title_pages.html" with titulo=exercicio_usuario.exercicio.nome url=capitulo_detail_url %}
     <div class="exercicio-container">
         {{ exercicio_usuario.exercicio.enunciado | safe }}
+        {% include "capitulos/partials/comentarios.html" %}
     </div>
 </div>
 {% endblock %}

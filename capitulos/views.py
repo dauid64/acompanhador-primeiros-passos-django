@@ -7,6 +7,8 @@ from django.utils.decorators import method_decorator
 from capitulos.forms.exercicio_usuario_form import ExercicioUsuarioDificuldadeForm, ExercicioUsuarioNotaForm
 from django.http import HttpResponse
 
+from comentarios.forms import ComentarioForm
+
 @method_decorator(login_required, name='dispatch')
 class CapituloDetailView(DetailView):
     model = Capitulo
@@ -103,4 +105,5 @@ class ExercicioUsuarioDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['comentario_form'] = ComentarioForm()
         return context
