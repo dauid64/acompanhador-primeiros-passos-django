@@ -105,5 +105,6 @@ class ExercicioUsuarioDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comentario_form'] = ComentarioForm()
+        context['comentario_form'] = ComentarioForm(initial={'exercicio': self.object.exercicio})
+        context['comentarios'] = self.object.exercicio.get_comentarios()
         return context

@@ -5,7 +5,7 @@ from comentarios.models import Comentario
 class ComentarioForm(forms.ModelForm):
     class Meta:
         model = Comentario
-        fields = ['body']
+        fields = ['body', 'exercicio']
         labels = {
             'body': 'Comentário:'
         }
@@ -13,4 +13,5 @@ class ComentarioForm(forms.ModelForm):
             'body': forms.Textarea(attrs={
                 'placeholder': 'Escreva seu comentário aqui...'
             }),
+            'exercicio': forms.HiddenInput()
         }
