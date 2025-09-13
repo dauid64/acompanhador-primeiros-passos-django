@@ -15,7 +15,7 @@ class Comentario(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True, related_name='respostas', on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('created_at',)
+        ordering = ('-created_at',)
     
     def __str__(self):
         return 'Comment by {}'.format(self.usuario.username)

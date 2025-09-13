@@ -39,6 +39,8 @@ $(document).ready(function () {
 
       // Renderiza no topo da lista
       const $list = $('#commentsList');
+      const commentsCount = $('.comment').length;
+      if (commentsCount === 0) $list.empty(); // remove "Nenhum comentário ainda"
       const html = `
         <div class="comment" data-comment-id="${data.id}">
           <div class="comment-header">
