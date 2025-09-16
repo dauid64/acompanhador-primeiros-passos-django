@@ -8,54 +8,83 @@
 {% endblock styles %}
 
 {% block content %}
-<div class="container-all-with-header centralize">
-  <div class="card text-center">
-    <h1>Bem vindo!</h1>
-    <h3>Acompanhador de execícios</h3>
-    <p>O acompanhador é uma plataforma gratuita para ajuda-lo a realizar os exercícios do Curso Django: do Básico à Autonomia. Você pode acessá-lo se cadastrando de forma simples ou logando se já tiver uma conta existente.</p>
-    <div class="buttons">
-        <a href="{% url 'authentication:cadastro' %}" class="btn btn-primary btn-index">Cadastrar</a>
-        <a href="{% url 'authentication:login' %}" class="btn btn-secondary btn-index">Entrar</a>
+<section class="hero-section">
+  <div class="hero-card">
+    <h1 class="hero-title">Bem-vindo! 👋</h1>
+    <h3 class="hero-subtitle">Acompanhador de Exercícios</h3>
+    <p class="hero-description">
+      Uma plataforma gratuita e interativa para acompanhar seu progresso no 
+      <strong>Curso Django: do Básico à Autonomia</strong>. 
+      Cadastre-se de forma simples ou faça login para continuar sua jornada de aprendizado.
+    </p>
+    <div class="hero-buttons">
+      <a href="{% url 'authentication:cadastro' %}" class="modern-btn btn-primary-modern">
+        🚀 Começar Agora
+      </a>
+      <a href="{% url 'authentication:login' %}" class="modern-btn btn-secondary-modern">
+        🔑 Fazer Login
+      </a>
     </div>
-    <img src="{% static 'authentication/imgs/dev_productivity.svg' %}" alt="ilustração de desenvolvedor sendo produtivo" class="logo-index">
+    <img src="{% static 'authentication/imgs/dev_productivity.svg' %}" 
+         alt="Desenvolvedor sendo produtivo" 
+         class="hero-image">
+    
+    <div class="scroll-invitation">
+      <p>Conheça os capítulos do curso</p>
+      <div class="scroll-arrow">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 16.5c-.28 0-.53-.11-.71-.29l-5-5a1.003 1.003 0 0 1 1.42-1.42L12 13.59l4.29-4.3a1.003 1.003 0 0 1 1.42 1.42l-5 5c-.18.18-.43.29-.71.29z"/>
+        </svg>
+      </div>
+    </div>
   </div>
-  <div class="scroll-indicator">
-    <h3>Ver sobre os capítulos</h3>
-    <div class="arrow-down"></div>
+</section>
+
+<section class="chapters-section">
+  <div class="chapter-card">
+    <h2 class="chapter-title">
+      <span class="chapter-number">1</span>
+      Configurando Ambiente
+    </h2>
+    <ul class="chapter-list">
+      <li>Instalar a Linguagem de Programação Python</li>
+      <li>Entender e criar um ambiente virtual para desenvolvimento de aplicações Python</li>
+      <li>Baixar e criar projeto Django</li>
+      <li>Baixar o PostgreSQL e criar um banco de dados</li>
+    </ul>
+    <div class="chapter-summary">
+      <strong>🎯 Objetivo:</strong> Ao final deste capítulo, você será capaz de configurar seu ambiente de desenvolvimento para trabalhar com Django, garantindo que todas as ferramentas necessárias estejam prontas para o desenvolvimento de aplicações web.
+    </div>
   </div>
-</div>
-<div class="container-all-with-header centralize">
-  <h1>Capítulo 1 - Configurando ambiente</h1>
-  <ul>
-    <li>Instalar a Linguagem de Programação Python.</li>
-    <li>Entender e criar um ambiente virtual para desenvolvimento de aplicações Python.</li>
-    <li>Baixar e criar projeto Django.</li>
-    <li>Baixar o gerenciador de banco de dados PostgreSQL e criar um banco de dados</li>
-  </ul>
-  <p class="container-explicacao-capitulo text-center">
-    Ao final desse capítulo, você será capaz de configurar seu ambiente de desenvolvimento para trabalhar com Django, garantindo que todas as ferramentas necessárias estejam prontas para o desenvolvimento de aplicações web.
-  </p>
-</div>
-<div class="container-all-with-header centralize">
-  <h1>Capítulo 2 - Criando rotas</h1>
-  <ul>
-    <li>Criar as primeiras rotas no Django.</li>
-    <li>Renderizar nossas páginas com Template do Django.</li>
-    <li>Utilizar <i>Class Based View</i> para criar nossas <i>views</i> no Django</li>
-  </ul>
-  <p class="container-explicacao-capitulo text-center">
-    Neste capítulo, será introduzido o conceito de rotas no Django, permitindo que você crie URLs que respondem a requisições HTTP e renderizem páginas HTML usando os templates do Django. Você também aprenderá a usar as <i>Class Based Views</i> para estruturar suas <i>views</i> de forma mais organizada e reutilizável.
-  </p>
-</div>
-<div class="container-all-with-header centralize">
-  <h1>Capítulo 3 - Criando modelos</h1>
-  <ul>
-    <li>Conectaremos nossa aplicação Django com o Banco de Dados PostgreSQL.</li>
-    <li>Criaremos os modelos da nossa aplicação.</li>
-    <li>Discutiremos relacionamento de modelos no Django como <i>Foreign Key</i> e <i>Many to Many</i></li>
-  </ul>
-  <p class="container-explicacao-capitulo text-center">
-    O aluno aqui será capaz de conectar sua aplicação Django ao banco de dados PostgreSQL, criando modelos que representam as entidades do seu sistema. Você aprenderá a definir campos, tipos de dados e relacionamentos entre modelos, como <i>Foreign Key</i> e <i>Many to Many</i>, para estruturar adequadamente os dados da sua aplicação.
-  </p>
-</div>
+
+  <div class="chapter-card">
+    <h2 class="chapter-title">
+      <span class="chapter-number">2</span>
+      Criando Rotas
+    </h2>
+    <ul class="chapter-list">
+      <li>Criar as primeiras rotas no Django</li>
+      <li>Renderizar páginas com Templates do Django</li>
+      <li>Utilizar <em>Class Based Views</em> para criar <em>views</em> no Django</li>
+    </ul>
+    <div class="chapter-summary">
+      <strong>🎯 Objetivo:</strong> Neste capítulo, você será introduzido ao conceito de rotas no Django, permitindo criar URLs que respondem a requisições HTTP e renderizam páginas HTML usando templates. Aprenderá também a usar <em>Class Based Views</em> para estruturar suas <em>views</em> de forma organizada.
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h2 class="chapter-title">
+      <span class="chapter-number">3</span>
+      Criando Modelos
+    </h2>
+    <ul class="chapter-list">
+      <li>Conectar a aplicação Django com o Banco de Dados PostgreSQL</li>
+      <li>Criar os modelos da aplicação</li>
+      <li>Discutir relacionamentos como <em>Foreign Key</em> e <em>Many to Many</em></li>
+    </ul>
+    <div class="chapter-summary">
+      <strong>🎯 Objetivo:</strong> Você será capaz de conectar sua aplicação Django ao PostgreSQL, criando modelos que representam as entidades do sistema. Aprenderá a definir campos, tipos de dados e relacionamentos entre modelos para estruturar adequadamente os dados.
+    </div>
+  </div>
+</section>
 {% endblock %}

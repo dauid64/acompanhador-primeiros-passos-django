@@ -1,16 +1,188 @@
-.logo-index {
-    width: 500px;
-    height: 200px;
+/* Home simples e elegante */
+.home-container {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, rgba(7, 29, 65, 0.02) 0%, rgba(12, 125, 71, 0.02) 100%);
 }
 
-.btn-home {
-    max-width: 15rem;
-    margin-bottom: 1rem;
+.welcome-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 2rem;
+  padding: 3rem 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(7, 29, 65, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
 }
 
-@media only screen and (max-width: 768px) {
-    .logo-index {
-        width: 300px;
-        height: 100px;
-    }
+.welcome-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+.welcome-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.user-avatar-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(7, 29, 65, 0.2);
+}
+
+.welcome-text h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+}
+
+.welcome-subtitle {
+  font-size: 1.2rem;
+  color: rgba(51, 51, 51, 0.8);
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+.main-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.2rem 2.5rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 8px 25px rgba(7, 29, 65, 0.3);
+  transition: all 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.main-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(7, 29, 65, 0.4);
+  color: white;
+}
+
+.cta-icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.hero-image {
+  width: 180px;
+  height: auto;
+  filter: drop-shadow(0 10px 25px rgba(7, 29, 65, 0.15));
+  transition: transform 0.3s ease;
+  margin-top: 1.5rem;
+}
+
+.hero-image:hover {
+  transform: scale(1.05);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .welcome-card {
+    padding: 2rem 1.5rem;
+    border-radius: 1.5rem;
+  }
+  
+  .welcome-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
+  .welcome-text h1 {
+    font-size: 2rem;
+  }
+  
+  .user-avatar-large {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  .hero-image {
+    width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-card {
+    padding: 1.5rem 1rem;
+    margin: 0.5rem;
+  }
+  
+  .main-cta {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+  
+  .welcome-text h1 {
+    font-size: 1.8rem;
+  }
+  
+  .welcome-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Animações */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-card {
+  animation: slideUp 0.6s ease-out;
+}
+
+/* Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .welcome-card,
+  .main-cta,
+  .hero-image {
+    animation: none;
+    transition: none;
+  }
 }

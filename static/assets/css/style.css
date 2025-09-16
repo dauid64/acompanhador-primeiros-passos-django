@@ -161,7 +161,7 @@ p {
 
 .form-control {
     width: 100%;
-    padding: 12px;
+    padding: 12px 0px 12px 50px;
     border-radius: 8px;
     border: 1px solid var(--primary-color);
     font-size: 1rem;

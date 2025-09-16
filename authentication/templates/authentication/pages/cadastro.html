@@ -5,23 +5,140 @@
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'authentication/css/cadastro.css' %}">
+<style>
+
+</style>
 {% endblock styles %}
 
 {% block content %}
-<div class="container-all-with-header-footer centralize">
-  <div class="card">
-    <h1 class="text-center">Cadastro</h1>
-    <form method="POST" class="container-form">
-      {% csrf_token %}
-      {% include 'components/layouts/form_general_errors.html' %}
-      {% for field in form %}
-        {% include 'components/layouts/form_field.html' %}
-      {% endfor %}
-      <small class="text-muted">Já possui uma conta? <a class="link-to-login" href="{% url "authentication:login" %}">Entrar agora!</a></small>
-      <div class="d-flex flex-centralize">
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
+<div class="signup-container">
+  <div class="signup-card">
+    <div class="signup-header">
+      <div class="signup-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
       </div>
+      <h1 class="signup-title">Crie sua conta</h1>
+      <p class="signup-subtitle">Junte-se à comunidade!</p>
+    </div>
+
+    <form method="POST" class="modern-form">
+      {% csrf_token %}
+      
+      <!-- Mensagens de erro gerais -->
+      {% if form.non_field_errors %}
+        <div class="error-message">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      <!-- Nome e Sobrenome -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="{{ form.first_name.id_for_label }}">
+            {{ form.first_name.label }}
+          </label>
+          <div style="position: relative;">
+            {{ form.first_name }}
+            <svg class="input-icon" viewBox="0 0 24 24">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+          {% if form.first_name.errors %}
+            <div class="field-error">
+              {{ form.first_name.errors }}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="{{ form.last_name.id_for_label }}">
+            {{ form.last_name.label }}
+          </label>
+          <div style="position: relative;">
+            {{ form.last_name }}
+            <svg class="input-icon" viewBox="0 0 24 24">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+          {% if form.last_name.errors %}
+            <div class="field-error">
+              {{ form.last_name.errors }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label class="form-label" for="{{ form.email.id_for_label }}">
+          {{ form.email.label }}
+        </label>
+        <div style="position: relative;">
+          {{ form.email }}
+          <svg class="input-icon" viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+        </div>
+        {% if form.email.errors %}
+          <div class="field-error">
+            {{ form.email.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Username -->
+      <div class="form-group">
+        <label class="form-label" for="{{ form.username.id_for_label }}">
+          {{ form.username.label }}
+        </label>
+        <div style="position: relative;">
+          {{ form.username }}
+          <svg class="input-icon" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+        {% if form.username.errors %}
+          <div class="field-error">
+            {{ form.username.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Senhas -->
+      <div class="form-group">
+        <div class="form-group">
+          <label class="form-label" for="{{ form.password.id_for_label }}">
+            {{ form.password.label }}
+          </label>
+          <div style="position: relative;">
+            {{ form.password }}
+            <svg class="input-icon" viewBox="0 0 24 24">
+              <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/>
+            </svg>
+          </div>
+          {% if form.password.errors %}
+            <div class="field-error">
+              {{ form.password.errors }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <button type="submit" class="signup-button">
+        🚀 Criar Minha Conta
+      </button>
     </form>
+
+    <div class="signup-footer">
+      <p style="color: rgba(51, 51, 51, 0.7); margin: 0;">
+        Já possui uma conta? 
+        <a class="login-link" href="{% url 'authentication:login' %}">
+          Faça login aqui
+        </a>
+      </p>
+    </div>
   </div>
 </div>
 {% endblock %}

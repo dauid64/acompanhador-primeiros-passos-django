@@ -8,15 +8,149 @@
 {% endblock styles %}
 
 {% block content %}
-<div class="container-all-with-header-footer">
-    <h1 class="page-title">Dashboard</h1>
-    <div class="d-flex flex-centralize flex-column">
-        <span style="padding-bottom: 1rem;">Aqui você pode ver o seu progresso no curso.</span>
-        <span class="course-progress text-center">{{ percentual_total_exercicios_completos }}%</span>
+<div class="dashboard-container">
+  <div class="dashboard-wrapper">
+    <!-- Header do Dashboard -->
+    <div class="dashboard-header">
+      <div class="dashboard-title-section">
+        <h1 class="dashboard-title">Painel de Progresso 📊</h1>
+        <p class="dashboard-subtitle">
+          Acompanhe seu desenvolvimento no curso
+        </p>
+      </div>
+      
+      <!-- Progresso Geral Circular -->
+      <div class="overall-progress">
+        <div class="progress-circle">
+          <svg class="progress-ring" viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:var(--secondary-color)"/>
+                <stop offset="100%" style="stop-color:var(--primary-color)"/>
+              </linearGradient>
+            </defs>
+            <circle class="progress-ring-bg" cx="60" cy="60" r="52"/>
+            <circle class="progress-ring-fill" cx="60" cy="60" r="52" 
+                    stroke-dasharray="327" 
+                    stroke-dashoffset="{{ 327|add:0 }}"
+                    data-progress="{{ percentual_total_exercicios_completos }}"/>
+          </svg>
+          <div class="progress-text">
+            <span class="progress-percentage">{{ percentual_total_exercicios_completos|floatformat:0 }}%</span>
+            <span class="progress-label">Concluído</span>
+          </div>
+        </div>
+        
+        <div class="progress-info">
+          <div class="progress-stats">
+            <div class="stat-item">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+              </div>
+              <span class="stat-text">{{ capitulos|length }} Capítulos Disponíveis</span>
+            </div>
+            
+            <div class="stat-item">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 11H7v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7z"/>
+                </svg>
+              </div>
+              <span class="stat-text">Exercícios Práticos</span>
+            </div>
+            
+            <div class="stat-item">
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <span class="stat-text">Progresso Personalizado</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="container-table">
-        {% include "authentication/partials/table_capitulos.html" %}
+
+    <!-- Seção dos Capítulos -->
+    <div class="chapters-section">
+      <h2 class="section-title">Seus Capítulos</h2>
+      
+      <div class="chapters-grid">
+        {% for capitulo in capitulos %}
+          <div class="chapter-card">
+            <div class="chapter-header">
+              <div class="chapter-number">{{ capitulo.numero }}</div>
+              <div class="chapter-info">
+                <h3>{{ capitulo.titulo }}</h3>
+                <p class="chapter-status">{{ capitulo.exercicios_feitos }} de {{ capitulo.total_exercicios }} exercícios</p>
+              </div>
+            </div>
+            
+            <div class="chapter-progress">
+              <div class="progress-info-header">
+                <span class="progress-title">Progresso</span>
+                <span class="progress-fraction">{{ capitulo.exercicios_feitos }}/{{ capitulo.total_exercicios }}</span>
+              </div>
+              <div class="modern-progress-bar">
+                <div class="modern-progress-fill" 
+                     data-progress="{{ capitulo.percentual_exercicios_completos }}"
+                     style="width: 0%"></div>
+              </div>
+            </div>
+            
+            <div class="chapter-actions">
+              <a href="{% url 'capitulos:capitulo_detail' capitulo.id %}" class="chapter-btn">
+                <svg class="btn-icon" viewBox="0 0 24 24">
+                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                </svg>
+                Ver Exercícios
+              </a>
+              
+              {% if capitulo.percentual_exercicios_completos == 100 %}
+                <div class="completion-badge">
+                  <svg class="badge-icon" viewBox="0 0 24 24">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                  </svg>
+                  Completo!
+                </div>
+              {% elif capitulo.percentual_exercicios_completos >= 80 %}
+                <div class="completion-badge">
+                  <svg class="badge-icon" viewBox="0 0 24 24">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                  </svg>
+                  Quase completo!
+                </div>
+              {% elif capitulo.percentual_exercicios_completos >= 50 %}
+                <div class="completion-badge medium">
+                  <svg class="badge-icon" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  Em progresso
+                </div>
+              {% elif capitulo.percentual_exercicios_completos > 0 %}
+                <div class="completion-badge low">
+                  <svg class="badge-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                  </svg>
+                  Iniciado
+                </div>
+              {% else %}
+                <div class="completion-badge low">
+                  <svg class="badge-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                  </svg>
+                  Não iniciado
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
 

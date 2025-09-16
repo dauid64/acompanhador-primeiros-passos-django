@@ -1,24 +1,736 @@
-<table>
-    <thead>
+<!-- Tabela moderna com fallback responsivo -->
+<div class="modern-table-container">
+  <div class="table-header">
+    <h3 class="table-title">
+      <svg class="table-icon" viewBox="0 0 24 24" width="20" height="20">
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+      </svg>
+      Visão Detalhada dos Capítulos
+    </h3>
+    <div class="table-filters">
+      <button class="filter-btn active" data-filter="all" title="Mostrar todos os capítulos">
+        <span>📚 Todos</span>
+        <span class="filter-count">{{ capitulos|length }}</span>
+      </button>
+      <button class="filter-btn" data-filter="completed" title="Mostrar apenas capítulos 100% completos">
+        <span>✅ Completos</span>
+        <span class="filter-count">0</span>
+      </button>
+      <button class="filter-btn" data-filter="in-progress" title="Mostrar apenas capítulos iniciados mas não completos">
+        <span>⏳ Em Progresso</span>
+        <span class="filter-count">0</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="responsive-table-wrapper">
+    <table class="modern-table">
+      <thead>
         <tr>
-            <th>Capítulo</th>
-            <th>Feitos</th>
-            <th>Progresso</th>
-            <th>Porcentagem</th>
-            <th>Ação</th>
+          <th class="sortable" data-sort="numero">
+            <div class="th-content">
+              <span>Capítulo</span>
+              <svg class="sort-icon" viewBox="0 0 24 24" width="16" height="16">
+                <path d="M7 10l5 5 5-5z"/>
+              </svg>
+            </div>
+          </th>
+          <th class="sortable" data-sort="exercicios">
+            <div class="th-content">
+              <span>Exercícios</span>
+              <svg class="sort-icon" viewBox="0 0 24 24" width="16" height="16">
+                <path d="M7 10l5 5 5-5z"/>
+              </svg>
+            </div>
+          </th>
+          <th class="progress-column">Progresso Visual</th>
+          <th class="sortable" data-sort="percentual">
+            <div class="th-content">
+              <span>%</span>
+              <svg class="sort-icon" viewBox="0 0 24 24" width="16" height="16">
+                <path d="M7 10l5 5 5-5z"/>
+              </svg>
+            </div>
+          </th>
+          <th class="action-column">Ações</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         {% for capitulo in capitulos %}
-            <tr>
-                <td><strong>{{ capitulo.numero }} - {{ capitulo.titulo }}</strong></td>
-                <td>{{ capitulo.exercicios_feitos }} / {{ capitulo.total_exercicios }}</td>
-                <td><div class="progress-bar" data-progress="{{ capitulo.percentual_exercicios_completos }}"><div class="progress"></div></div></td>
-                <td>{{ capitulo.percentual_exercicios_completos|floatformat:2 }}%</td>
-                <td>
-                    <a href="{% url 'capitulos:capitulo_detail' capitulo.id %}" class="btn btn-primary btn-table">Ver Exercícios</a>
-                </td>
-            </tr>
+          <tr class="chapter-row" 
+              data-chapter="{{ capitulo.numero }}"
+              data-progress="{{ capitulo.percentual_exercicios_completos }}"
+              data-status="{% if capitulo.percentual_exercicios_completos >= 100 %}completed{% elif capitulo.percentual_exercicios_completos > 0 %}in-progress{% else %}not-started{% endif %}">
+            
+            <td class="chapter-info" data-label="Capítulo">
+              <div class="chapter-cell">
+                <div class="chapter-badge">{{ capitulo.numero }}</div>
+                <div class="chapter-details">
+                  <strong class="chapter-title">{{ capitulo.titulo }}</strong>
+                  <span class="chapter-meta">Capítulo {{ capitulo.numero }}</span>
+                </div>
+              </div>
+            </td>
+            
+            <td class="exercises-info" data-label="Exercícios">
+              <div class="exercises-cell">
+                <div class="exercises-count">
+                  <span class="completed">{{ capitulo.exercicios_feitos }}</span>
+                  <span class="separator">/</span>
+                  <span class="total">{{ capitulo.total_exercicios }}</span>
+                </div>
+                <div class="exercises-label">exercícios</div>
+              </div>
+            </td>
+            
+            <td class="progress-info" data-label="Progresso">
+              <div class="enhanced-progress-bar" data-progress="{{ capitulo.percentual_exercicios_completos }}">
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 0%"></div>
+                  <div class="progress-glow"></div>
+                </div>
+                <div class="progress-markers">
+                  <span class="marker" style="left: 25%"></span>
+                  <span class="marker" style="left: 50%"></span>
+                  <span class="marker" style="left: 75%"></span>
+                </div>
+              </div>
+            </td>
+            
+            <td class="percentage-info" data-label="Porcentagem">
+              <div class="percentage-cell">
+                <span class="percentage-value">{{ capitulo.percentual_exercicios_completos|floatformat:1 }}%</span>
+                <div class="percentage-indicator 
+                  {% if capitulo.percentual_exercicios_completos >= 100 %}complete
+                  {% elif capitulo.percentual_exercicios_completos >= 80 %}high
+                  {% elif capitulo.percentual_exercicios_completos >= 50 %}medium
+                  {% elif capitulo.percentual_exercicios_completos > 0 %}low
+                  {% else %}none{% endif %}">
+                </div>
+              </div>
+            </td>
+            
+            <td class="actions-info" data-label="Ações">
+              <div class="action-buttons">
+                <a href="{% url 'capitulos:capitulo_detail' capitulo.id %}" 
+                   class="modern-action-btn primary"
+                   title="Ver exercícios do capítulo {{ capitulo.numero }}">
+                  <svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16">
+                    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                  </svg>
+                  <span class="btn-text">Ver Exercícios</span>
+                </a>
+                
+                {% if capitulo.percentual_exercicios_completos > 0 %}
+                  <button class="modern-action-btn secondary" 
+                          title="Ver estatísticas detalhadas"
+                          onclick="showChapterStats({{ capitulo.numero }})">
+                    <svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16">
+                      <path d="M16,11V3H8v6H2v12h20V11H16z M10,5h4v14h-4V5z M4,11h4v8H4V11z M20,19h-4v-6h4V19z"/>
+                    </svg>
+                    <span class="btn-text">Stats</span>
+                  </button>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
         {% endfor %}
-    </tbody>
-</table>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Modal para estatísticas (será implementado via JS) -->
+  <div id="statsModal" class="stats-modal" style="display: none;">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Estatísticas do Capítulo</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Conteúdo será preenchido via JavaScript -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Estilos para a tabela moderna */
+.modern-table-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 10px 30px rgba(7, 29, 65, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.table-title {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.table-icon {
+  fill: var(--secondary-color);
+  flex-shrink: 0;
+}
+
+.table-filters {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(7, 29, 65, 0.05);
+  padding: 0.3rem;
+  border-radius: 12px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: rgba(51, 51, 51, 0.7);
+}
+
+.filter-btn.active {
+  background: white;
+  color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(7, 29, 65, 0.1);
+}
+
+.filter-count {
+  background: var(--secondary-color);
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.filter-btn.active .filter-count {
+  background: var(--primary-color);
+}
+
+.responsive-table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(7, 29, 65, 0.1);
+}
+
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.modern-table th {
+  background: linear-gradient(135deg, var(--primary-color) 0%, rgba(7, 29, 65, 0.9) 100%);
+  color: white;
+  padding: 1.2rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  position: relative;
+}
+
+.modern-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.th-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sort-icon {
+  fill: currentColor;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+}
+
+.modern-table th.sortable:hover .sort-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.modern-table th.sorted-asc .sort-icon {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+.modern-table th.sorted-desc .sort-icon {
+  transform: rotate(0deg);
+  opacity: 1;
+}
+
+.modern-table td {
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid rgba(7, 29, 65, 0.08);
+  vertical-align: middle;
+}
+
+.chapter-row {
+  transition: all 0.2s ease;
+}
+
+.chapter-row:hover {
+  background: rgba(7, 29, 65, 0.02);
+}
+
+/* Células específicas */
+.chapter-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.chapter-badge {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.chapter-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.chapter-title {
+  font-size: 1rem;
+  color: var(--primary-color);
+  line-height: 1.3;
+}
+
+.chapter-meta {
+  font-size: 0.8rem;
+  color: rgba(51, 51, 51, 0.6);
+}
+
+.exercises-cell {
+  text-align: center;
+}
+
+.exercises-count {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.exercises-count .completed {
+  color: var(--secondary-color);
+}
+
+.exercises-count .separator {
+  color: rgba(51, 51, 51, 0.4);
+  margin: 0 0.3rem;
+}
+
+.exercises-count .total {
+  color: rgba(51, 51, 51, 0.7);
+}
+
+.exercises-label {
+  font-size: 0.75rem;
+  color: rgba(51, 51, 51, 0.6);
+}
+
+/* Barra de progresso aprimorada */
+.enhanced-progress-bar {
+  position: relative;
+  width: 100%;
+  max-width: 120px;
+  margin: 0 auto;
+}
+
+.progress-track {
+  height: 12px;
+  background: rgba(7, 29, 65, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  border-radius: 6px;
+  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+.progress-glow {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.enhanced-progress-bar:hover .progress-glow {
+  opacity: 0.3;
+}
+
+.progress-markers {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+}
+
+.marker {
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.percentage-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.percentage-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.percentage-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.percentage-indicator.complete { background: #27ae60; }
+.percentage-indicator.high { background: #f39c12; }
+.percentage-indicator.medium { background: #3498db; }
+.percentage-indicator.low { background: #e74c3c; }
+.percentage-indicator.none { background: #95a5a6; }
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.modern-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modern-action-btn.primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+}
+
+.modern-action-btn.secondary {
+  background: rgba(7, 29, 65, 0.1);
+  color: var(--primary-color);
+}
+
+.modern-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(7, 29, 65, 0.2);
+}
+
+.btn-icon {
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .modern-table-container {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 1rem;
+  }
+  
+  .table-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .table-title {
+    font-size: 1.3rem;
+    justify-content: center;
+  }
+  
+  .table-filters {
+    justify-content: center;
+  }
+  
+  .modern-table {
+    display: none; /* Ocultar tabela em mobile */
+  }
+  
+  /* Cards responsivos para mobile */
+  .chapter-row {
+    display: block;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(7, 29, 65, 0.05);
+    border: 1px solid rgba(7, 29, 65, 0.1);
+  }
+  
+  .chapter-row td {
+    display: block;
+    padding: 0.5rem 0;
+    border: none;
+  }
+  
+  .chapter-row td:before {
+    content: attr(data-label) ": ";
+    font-weight: 600;
+    color: var(--primary-color);
+    display: inline-block;
+    min-width: 100px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .chapter-info:before,
+  .actions-info:before {
+    display: none;
+  }
+  
+  .chapter-cell {
+    margin-bottom: 1rem;
+  }
+  
+  .enhanced-progress-bar {
+    max-width: none;
+    margin: 0.5rem 0;
+  }
+  
+  .action-buttons {
+    justify-content: stretch;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+  
+  .modern-action-btn {
+    justify-content: center;
+  }
+}
+
+/* Estados de carregamento */
+.chapter-row.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.chapter-row.loading .progress-fill {
+  animation: loading-pulse 1.5s infinite;
+}
+
+@keyframes loading-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .progress-fill,
+  .modern-action-btn,
+  .chapter-row {
+    transition: none;
+    animation: none;
+  }
+}
+
+.modern-table th:focus,
+.modern-action-btn:focus,
+.filter-btn:focus {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
+</style>
+
+<script>
+// JavaScript para funcionalidade da tabela
+document.addEventListener('DOMContentLoaded', function() {
+    // Animar barras de progresso da tabela
+    setTimeout(() => {
+        document.querySelectorAll('.enhanced-progress-bar').forEach((bar, index) => {
+            const progress = parseFloat(bar.dataset.progress) || 0;
+            const fill = bar.querySelector('.progress-fill');
+            
+            setTimeout(() => {
+                fill.style.width = progress + '%';
+            }, index * 100);
+        });
+    }, 500);
+    
+    // Funcionalidade de filtros
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
+            const rows = document.querySelectorAll('.chapter-row');
+            
+            // Atualizar botão ativo
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Filtrar linhas - CORRIGIDO: Todos os capítulos sempre visíveis por padrão
+            rows.forEach((row, index) => {
+                const status = row.dataset.status;
+                let shouldShow = true; // Por padrão, mostrar todos
+                
+                // Aplicar filtros específicos apenas quando solicitado
+                if (filter === 'completed') {
+                    shouldShow = (status === 'completed');
+                } else if (filter === 'in-progress') {
+                    shouldShow = (status === 'in-progress');
+                }
+                // Para 'all', shouldShow já é true, então mostra todos
+                
+                if (shouldShow) {
+                    row.style.display = '';
+                    row.style.animation = `fadeInUp 0.3s ease-out ${index * 50}ms both`;
+                } else {
+                    row.style.animation = 'fadeOut 0.2s ease-out both';
+                    setTimeout(() => {
+                        row.style.display = 'none';
+                    }, 200);
+                }
+            });
+            
+            // Mostrar feedback sobre quantos itens estão visíveis
+            const visibleCount = Array.from(rows).filter(row => 
+                row.style.display !== 'none'
+            ).length;
+            
+            console.log(`Filtro "${filter}" aplicado: ${visibleCount} capítulos visíveis`);
+        });
+    });
+    
+    // Funcionalidade de ordenação
+    document.querySelectorAll('.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+            const sortKey = th.dataset.sort;
+            const isAsc = !th.classList.contains('sorted-asc');
+            
+            // Remover classes de ordenação de outras colunas
+            document.querySelectorAll('.sortable').forEach(header => {
+                header.classList.remove('sorted-asc', 'sorted-desc');
+            });
+            
+            // Adicionar classe apropriada
+            th.classList.add(isAsc ? 'sorted-asc' : 'sorted-desc');
+            
+            // Implementar lógica de ordenação aqui se necessário
+            console.log(`Ordenando por: ${sortKey}, Crescente: ${isAsc}`);
+        });
+    });
+    
+    // Atualizar contadores dos filtros
+    updateFilterCounts();
+});
+
+function updateFilterCounts() {
+    const all = document.querySelectorAll('.chapter-row').length;
+    const completed = document.querySelectorAll('.chapter-row[data-status="completed"]').length;
+    const inProgress = document.querySelectorAll('.chapter-row[data-status="in-progress"]').length;
+    
+    document.querySelector('[data-filter="all"] .filter-count').textContent = all;
+    document.querySelector('[data-filter="completed"] .filter-count').textContent = completed;
+    document.querySelector('[data-filter="in-progress"] .filter-count').textContent = inProgress;
+}
+
+function showChapterStats(chapterNumber) {
+    // Implementar modal de estatísticas
+    console.log(`Mostrar estatísticas do capítulo ${chapterNumber}`);
+    // Por ora, apenas um alert simples
+    alert(`Estatísticas detalhadas do Capítulo ${chapterNumber} serão implementadas em breve!`);
+}
+</script>

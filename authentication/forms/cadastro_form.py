@@ -6,11 +6,11 @@ class CadastroForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password']
         widgets = {
-            'first_name': forms.TextInput(attrs={'placeholder': 'Nome', 'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'placeholder': 'Sobrenome', 'class': 'form-control'}),
-            'username': forms.TextInput(attrs={'placeholder': 'Nome de usuário', 'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}),
-            'password': forms.PasswordInput(attrs={'placeholder': 'Senha', 'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={ 'class': 'form-control'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'first_name': 'Nome',
@@ -47,12 +47,12 @@ class CadastroForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=150,
-        widget=forms.TextInput(attrs={'placeholder': 'Nome de usuário', 'class': 'form-control'}),
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
         label='Nome de usuário',
         required=True
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Senha', 'class': 'form-control'}),
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         label='Senha',
         required=True
     )

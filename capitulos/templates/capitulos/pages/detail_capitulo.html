@@ -1,7 +1,7 @@
 {% extends "components/base.html" %}
 {% load static %}
 
-{% block head_title %}Dashboard{% endblock head_title %}
+{% block head_title %}{{ capitulo.titulo }}{% endblock head_title %}
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'capitulos/css/capitulos.css' %}">
@@ -9,15 +9,191 @@
 
 {% block content %}
 {% csrf_token %}
-<div class="container-all-with-header-footer">
-    {% url 'authentication:dashboard' as dashboard_url %}
-    {% include "capitulos/partials/title_pages.html" with titulo=capitulo url=dashboard_url %}
-    <div class="container-table">
-        {% include "capitulos/partials/table_exercicios.html" %}
+<div class="chapter-detail-container">
+  <div class="chapter-detail-wrapper">
+    <!-- Header do Capítulo -->
+    <div class="chapter-header">
+      <!-- Navegação -->
+      <div class="chapter-navigation">
+        {% url 'authentication:dashboard' as dashboard_url %}
+        <a href="{{ dashboard_url }}" class="back-button">
+          <svg class="back-icon" viewBox="0 0 24 24">
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+          </svg>
+          Voltar ao Dashboard
+        </a>
+        
+        <div class="breadcrumb">
+          <span class="breadcrumb-item">
+            <svg class="breadcrumb-separator" viewBox="0 0 24 24">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            Dashboard
+          </span>
+          <svg class="breadcrumb-separator" viewBox="0 0 24 24">
+            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+          </svg>
+          <span class="breadcrumb-item">{{ capitulo.titulo }}</span>
+        </div>
+      </div>
+      
+      <!-- Título do Capítulo -->
+      <div class="chapter-title-section">
+        <div class="chapter-number-badge">
+          <svg class="chapter-icon" viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+          </svg>
+          Capítulo {{ capitulo.numero }}
+        </div>
+        <h1 class="chapter-title">{{ capitulo.titulo }}</h1>
+        <p class="chapter-description">
+          Explore os exercícios práticos deste capítulo para aprimorar seus conhecimentos em Django
+        </p>
+      </div>
+      
+      <!-- Estatísticas do Capítulo -->
+      <div class="chapter-stats">
+        <div class="stat-card">
+          <div class="stat-icon-wrapper">
+            <svg class="stat-icon" viewBox="0 0 24 24">
+              <path d="M9 11H7v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7z"/>
+            </svg>
+          </div>
+          <div class="stat-value">{{ exercicios_usuario|length }}</div>
+          <div class="stat-label">Total de Exercícios</div>
+        </div>
+        
+        {% comment %} <div class="stat-card">
+          <div class="stat-icon-wrapper">
+            <svg class="stat-icon" viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+          </div>
+          <div class="stat-value">{{ capitulo.exercicios_feitos }}</div>
+          <div class="stat-label">Exercícios Concluídos</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon-wrapper">
+            <svg class="stat-icon" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+          <div class="stat-value">{{ capitulo.percentual_exercicios_completos|default:0 }}%</div>
+          <div class="stat-label">Progresso Geral</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon-wrapper">
+            <svg class="stat-icon" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+          </div>
+          <div class="stat-value">{{ capitulo.total_exercicio }}</div>
+          <div class="stat-label">Restantes</div>
+        </div>
+      </div> {% endcomment %}
     </div>
+
+    <!-- Seção de Exercícios -->
+    <div class="exercises-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <svg class="chapter-icon" viewBox="0 0 24 24">
+            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+          </svg>
+          Lista de Exercícios
+        </h2>
+        
+        <div class="exercises-filters">
+          <button class="exercise-filter-btn active" data-filter="all">
+            <svg class="filter-icon" viewBox="0 0 24 24">
+              <path d="M3,5H21V7H3V5M3,11H21V13H3V11M3,17H21V19H3V17Z"/>
+            </svg>
+            Todos
+          </button>
+          <button class="exercise-filter-btn" data-filter="completed">
+            <svg class="filter-icon" viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+            Feitos
+          </button>
+          <button class="exercise-filter-btn" data-filter="pending">
+            <svg class="filter-icon" viewBox="0 0 24 24">
+              <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17Z"/>
+            </svg>
+            Pendentes
+          </button>
+        </div>
+      </div>
+      
+      {% include "capitulos/partials/table_exercicios.html" %}
+    </div>
+  </div>
+</div>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script src="{% static 'capitulos/js/capitulos.js' %}"></script>
+<script>
+// JavaScript para funcionalidade dos filtros de exercícios
+document.addEventListener('DOMContentLoaded', function() {
+    // Funcionalidade de filtros de exercícios
+    document.querySelectorAll('.exercise-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
+            
+            // Atualizar botão ativo
+            document.querySelectorAll('.exercise-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Implementar lógica de filtro para a tabela de exercícios
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const checkbox = row.querySelector('.change-feito');
+                const isCompleted = checkbox && checkbox.checked;
+                
+                let shouldShow = true;
+                if (filter === 'completed') {
+                    shouldShow = isCompleted;
+                } else if (filter === 'pending') {
+                    shouldShow = !isCompleted;
+                }
+                
+                row.style.display = shouldShow ? '' : 'none';
+            });
+        });
+    });
+    
+    // Animar estatísticas
+    setTimeout(() => {
+        document.querySelectorAll('.stat-value').forEach((stat, index) => {
+            const finalValue = parseInt(stat.textContent) || 0;
+            if (stat.textContent.includes('%')) {
+                const percentValue = parseFloat(stat.textContent);
+                animateNumber(stat, percentValue, 1000, '%');
+            } else {
+                animateNumber(stat, finalValue, 1000, '');
+            }
+        });
+    }, 500);
+});
+
+// Função para animar números
+function animateNumber(element, finalValue, duration = 1000, suffix = '') {
+    const startValue = 0;
+    const increment = finalValue / (duration / 16);
+    let currentValue = startValue;
+    
+    const timer = setInterval(() => {
+        currentValue += increment;
+        if (currentValue >= finalValue) {
+            currentValue = finalValue;
+            clearInterval(timer);
+        }
+        element.textContent = Math.round(currentValue) + suffix;
+    }, 16);
+}
+</script>
 {% endblock %}

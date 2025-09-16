@@ -1,19 +1,30 @@
 {% extends "components/base.html" %}
 {% load static %}
 
-{% block head_title %}Página Principal{% endblock head_title %}
+{% block head_title %}Home{% endblock head_title %}
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'authentication/css/home.css' %}">
 {% endblock styles %}
 
 {% block content %}
-<div class="container-all-with-header-footer centralize">
-  <div class="card text-center">
-    <h1>Olá, {{ user.first_name }}!</h1>
-    <h3>Acesse seu dashboard para acompanhar os capítulos e os exercicios digitalizados, além da possibilidade de avaliar cada exercício.</h3>
-    <a href="{% url 'authentication:dashboard' %}" class="btn btn-primary btn-home">Acessar o dashboard</a>
-    <img src="{% static 'authentication/imgs/dev_productivity.svg' %}" alt="ilustração de desenvolvedor sendo produtivo" class="logo-index">
+<div class="home-container">
+  <div class="welcome-card">
+    <div class="welcome-section">
+      <div class="welcome-text">
+        <h1>Olá, {{ user.first_name|default:user.username }}! 👋</h1>
+        <p class="welcome-subtitle">
+          Acesse seu dashboard para acompanhar os capítulos e exercícios digitalizados, além da possibilidade de avaliar cada exercício.
+        </p>
+      </div>
+    </div>
+    
+    <a href="{% url 'authentication:dashboard' %}" class="main-cta">
+      <svg class="cta-icon" viewBox="0 0 24 24">
+        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+      </svg>
+      Acessar Dashboard
+    </a>
   </div>
 </div>
 {% endblock %}

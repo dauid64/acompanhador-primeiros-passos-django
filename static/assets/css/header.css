@@ -1,60 +1,332 @@
-.navbar {
-    background-color: var(--primary-color);
-    padding: 0.5rem 1rem;
-    height: 6vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
+/* Header moderno e elegante */
+.modern-navbar {
+    background: linear-gradient(135deg, var(--primary-color) 0%, rgba(7, 29, 65, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(7, 29, 65, 0.3);
 }
 
-.navbar-brand {
-    color: white;
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.8rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.4rem;
+    min-height: 60px;
+}
+
+/* Logo e Brand */
+.navbar-brand-section {
+    flex: 1;
+}
+
+.modern-navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     text-decoration: none;
-    font-size: 1.2rem;
+    color: white;
+    transition: all 0.3s ease;
 }
 
-.btn-header {
+.modern-navbar-brand:hover {
+    transform: translateY(-1px);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.modern-navbar-brand:hover .logo-container {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 24px;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.brand-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: white;
+}
+
+.brand-subtitle {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.5px;
+}
+
+/* Menu de navegação */
+.navbar-menu {
+    display: flex;
+    align-items: center;
+}
+
+/* Menu do usuário logado */
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #0a9b5c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-name {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     padding: 0.6rem 1rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 1rem;
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.nav-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Botão de logout */
+.logout-form {
+    margin: 0;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    background: rgba(255, 87, 87, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    border: none;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: none;
-    text-decoration: none;
-    display: inline-block;
-    width: 100%;
-    box-sizing: border-box;
-    color: var(--primary-color);
+    font-size: 0.95rem;
 }
 
-.btn-header:hover {
-    color: var(--secondary-color);
+.logout-btn:hover {
+    background: rgba(255, 87, 87, 0.3);
+    color: white;
+    transform: translateY(-1px);
 }
 
 .logout-icon {
-    display: none;
+    width: 18px;
+    height: 18px;
 }
 
-@media only screen and (max-width: 768px) {
-    .logout-text {
+/* Botões de autenticação para usuários não logados */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.auth-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.login-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.signup-btn {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #0a9b5c 100%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.signup-btn:hover {
+    background: linear-gradient(135deg, #0a9b5c 0%, var(--secondary-color) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(12, 125, 71, 0.3);
+}
+
+.btn-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Menu mobile toggle */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.mobile-menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 0.8rem 1rem;
+    }
+    
+    .brand-title {
+        font-size: 1.2rem;
+    }
+    
+    .brand-subtitle {
         display: none;
     }
-
-    .logout-icon {
-        display: inline;
-    }
-
-    .navbar-title {
+    
+    .user-name {
         display: none;
     }
-
-    .btn-header {
-        padding: 0.2rem 0.6rem;
+    
+    .nav-text, .logout-text {
+        display: none;
     }
+    
+    .auth-btn {
+        padding: 0.6rem;
+        min-width: 44px;
+        justify-content: center;
+    }
+    
+    .auth-btn span {
+        display: none;
+    }
+    
+    .navbar-actions {
+        gap: 0.3rem;
+    }
+    
+    .nav-link, .logout-btn {
+        padding: 0.6rem;
+        min-width: 44px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-text {
+        display: none;
+    }
+    
+    .navbar-container {
+        min-height: 50px;
+    }
+    
+    .logo-container {
+        padding: 0.3rem;
+    }
+    
+    .navbar-logo {
+        width: 32px;
+        height: 20px;
+    }
+    
+    .user-info {
+        gap: 0.5rem;
+    }
+    
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Animações */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modern-navbar {
+    animation: slideIn 0.5s ease-out;
 }
